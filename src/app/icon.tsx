@@ -6,28 +6,41 @@ export const contentType = 'image/png'
 export default function Icon() {
   return new ImageResponse(
     (
+      {/* zinc-950 배경 위에 circle 오버레이 — nav 디자인과 동일 */}
       <div
         style={{
           width: 128,
           height: 128,
           borderRadius: '50%',
-          background: '#0d1f16',
-          border: '4px solid rgba(16, 185, 129, 0.6)',
+          background: '#09090b',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <span
+        <div
           style={{
-            color: '#34d399',
-            fontSize: 58,
-            fontWeight: 900,
-            lineHeight: 1,
+            width: 128,
+            height: 128,
+            borderRadius: '50%',
+            background: 'rgba(16, 185, 129, 0.2)',
+            border: '3px solid rgba(16, 185, 129, 0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          G
-        </span>
+          <span
+            style={{
+              color: '#34d399',
+              fontSize: 58,
+              fontWeight: 800,
+              lineHeight: 1,
+            }}
+          >
+            G
+          </span>
+        </div>
       </div>
     ),
     { ...size }
