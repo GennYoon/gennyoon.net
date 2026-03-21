@@ -45,7 +45,7 @@ export default function NavClient({ categories }: { categories: Category[] }) {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-zinc-800/60 transition-all duration-300 mr-1"
+            className="flex items-center gap-2 px-2 py-1.5 rounded-full hover:bg-zinc-800/60 transition-all duration-300 mr-1"
           >
             <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
               <span className="text-emerald-400 text-[10px] font-bold">G</span>
