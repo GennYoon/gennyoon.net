@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { formatDate } from '@/lib/utils'
+import ViewCounter from '@/components/blog/ViewCounter'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -54,12 +55,11 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) notFound()
 
-  await supabase.rpc('increment_view_count', { post_slug: slug })
-
   const cat = post.categories as unknown as { name: string; slug: string; emoji: string; color: string } | null
 
   return (
     <article className="min-h-[100dvh] pt-32 pb-24">
+      <ViewCounter slug={slug} />
       <div className="max-w-3xl mx-auto px-6">
         {/* Back */}
         <Link
