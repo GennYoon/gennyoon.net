@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 // service_role key 사용 — RLS 우회, 절대 클라이언트 노출 금지
 export const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  process.env.SUPABASE_SECRET_KEY!,
   {
     db: { schema: 'gennyoon' },
     auth: { autoRefreshToken: false, persistSession: false },
