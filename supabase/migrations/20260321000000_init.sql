@@ -101,10 +101,20 @@ $$ language sql security definer;
 
 -- 스키마 접근 권한
 grant usage on schema gennyoon to anon, authenticated, service_role;
-grant all on all tables in schema gennyoon to authenticated, service_role;
-grant select on all tables in schema gennyoon to anon;
-grant all on all sequences in schema gennyoon to authenticated, service_role;
-grant execute on all functions in schema gennyoon to anon, authenticated, service_role;
+grant all on all tables    in schema gennyoon to anon, authenticated, service_role;
+grant all on all routines  in schema gennyoon to anon, authenticated, service_role;
+grant all on all sequences in schema gennyoon to anon, authenticated, service_role;
+
+-- 이후 생성되는 객체에도 자동 적용 (없으면 마이그레이션 추가 시 권한 다시 막힘)
+alter default privileges for role postgres in schema gennyoon
+  grant all on tables    to anon, authenticated, service_role;
+alter default privileges for role postgres in schema gennyoon
+  grant all on routines  to anon, authenticated, service_role;
+alter default privileges for role postgres in schema gennyoon
+  grant all on sequences to anon, authenticated, service_role;
+
+-- PostgREST search_path 설정
+alter role authenticator set search_path to gennyoon, public;
 
 -- RLS 활성화
 alter table gennyoon.posts enable row level security;
