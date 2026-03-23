@@ -28,13 +28,7 @@ export default function NavClient({ categories }: { categories: Category[] }) {
   return (
     <>
       {/* Floating Pill Nav */}
-      <nav
-        className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 ${
-          scrolled
-            ? 'w-auto'
-            : 'w-auto'
-        }`}
-      >
+      <nav className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 w-auto`}>
         <div
           className={`flex items-center gap-1 px-3 py-2 rounded-full border transition-all duration-500 ${
             scrolled
@@ -43,15 +37,12 @@ export default function NavClient({ categories }: { categories: Category[] }) {
           }`}
         >
           {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-zinc-800/60 transition-all duration-300 mr-1"
-          >
+          <Link href="/" className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-zinc-800/60 transition-all duration-300 mr-1">
             <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
               <span className="text-emerald-400 text-[10px] font-bold">G</span>
             </div>
             <span className="text-zinc-200 text-sm font-semibold tracking-tight hidden sm:block">
-              gennyoon
+              GennYoon
             </span>
           </Link>
 
@@ -63,7 +54,7 @@ export default function NavClient({ categories }: { categories: Category[] }) {
               <Link
                 key={cat.slug}
                 href={`/category/${cat.slug}`}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
+                className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-300 ${
                   pathname === `/category/${cat.slug}`
                     ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60'
@@ -77,7 +68,7 @@ export default function NavClient({ categories }: { categories: Category[] }) {
           {/* Mobile menu toggle */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden p-1.5 rounded-full text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 transition-all duration-300"
+            className="md:hidden w-8 h-8 flex items-center justify-center rounded-full text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 transition-all duration-300"
             aria-label="메뉴"
           >
             {/* @ts-expect-error iconify */}
