@@ -6,7 +6,6 @@ export const contentType = 'image/png'
 export default function Icon() {
   return new ImageResponse(
     (
-      {/* zinc-950 배경 위에 circle 오버레이 — nav 디자인과 동일 */}
       <div
         style={{
           width: 128,
