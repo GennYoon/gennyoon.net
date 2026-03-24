@@ -1,7 +1,8 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
+import { Search } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -39,15 +40,30 @@ export default function PostsFilter({ categories }: { categories: Category[] }) 
   const category = searchParams.get('category') || ''
   const hasFilter = q || status || category
 
+  const [inputQ, setInputQ] = useState(q)
+
+  const submitSearch = useCallback(() => {
+    update('q', inputQ.trim())
+  }, [inputQ, update])
+
   return (
     <div className="flex flex-wrap gap-2 mb-6">
-      <input
-        type="text"
-        value={q}
-        onChange={(e) => update('q', e.target.value)}
-        placeholder="제목 검색..."
-        className="flex-1 min-w-40 px-3 py-2 text-sm border border-zinc-700/60 rounded-lg bg-zinc-800/60 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-colors"
-      />
+      <div className="flex flex-1 min-w-40">
+        <input
+          type="text"
+          value={inputQ}
+          onChange={(e) => setInputQ(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && submitSearch()}
+          placeholder="제목 검색..."
+          className="flex-1 px-3 py-2 text-sm border border-zinc-700/60 rounded-l-lg bg-zinc-800/60 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-colors"
+        />
+        <button
+          onClick={submitSearch}
+          className="px-3 py-2 bg-zinc-700 hover:bg-zinc-600 border border-l-0 border-zinc-700/60 rounded-r-lg text-zinc-300 hover:text-zinc-100 transition-colors"
+        >
+          <Search className="w-4 h-4" />
+        </button>
+      </div>
 
       <Select value={status || '__all__'} onValueChange={(v) => update('status', v)}>
         <SelectTrigger className="w-36 border-zinc-700/60 bg-zinc-800/60 text-zinc-100 focus:ring-emerald-500/50">
