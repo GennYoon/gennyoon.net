@@ -228,7 +228,7 @@ export default async function HomePage() {
               </div>
 
               {/* Featured — full width asymmetric */}
-              <Link href={`/blog/${featuredPost.slug}`} className="group block">
+              <Link href={`/blog/${featuredPost.id}`} className="group block">
                 <div className="p-1.5 rounded-3xl bg-zinc-800/30 border border-zinc-700/40 hover:border-emerald-500/20 transition-all duration-500 hover:bg-zinc-800/40">
                   <div className="rounded-[calc(1.5rem-0.375rem)] overflow-hidden bg-zinc-900/60 border border-zinc-800/40">
                     <div className="grid md:grid-cols-[1fr_auto] gap-0">

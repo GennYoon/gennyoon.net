@@ -6,17 +6,17 @@ import { formatDate } from '@/lib/utils'
 import ViewCounter from '@/components/blog/ViewCounter'
 
 interface Props {
-  params: Promise<{ slug: string }>
+  params: Promise<{ id: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
+  const { id } = await params
   const supabase = await createClient()
 
   const { data: post } = await supabase
     .from('posts')
-    .select('title, seo_title, seo_description, categories(name, slug, emoji)')
-    .eq('slug', slug)
+    .select('title, seo_title, seo_description, slug, categories(name, slug, emoji)')
+    .eq('id', id)
     .eq('status', 'published')
     .single()
 
@@ -43,13 +43,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogPostPage({ params }: Props) {
-  const { slug } = await params
+  const { id } = await params
   const supabase = await createClient()
 
   const { data: post } = await supabase
     .from('posts')
     .select('*, categories(name, slug, emoji, color)')
-    .eq('slug', slug)
+    .eq('id', id)
     .eq('status', 'published')
     .single()
 
@@ -59,7 +59,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <article className="min-h-[100dvh] pt-32 pb-24">
-      <ViewCounter slug={slug} />
+      <ViewCounter slug={post.slug} />
       <div className="max-w-3xl mx-auto px-6">
         {/* Back */}
         <Link
