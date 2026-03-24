@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { marked } from 'marked'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import ImageExtension from '@tiptap/extension-image'
@@ -36,6 +37,7 @@ interface Props {
     status: string
     seo_title: string
     seo_description: string
+    published_at: string | null
   }
 }
 
@@ -50,6 +52,7 @@ export default function NewPostEditor({ categories, post }: Props) {
   const [coverImage, setCoverImage] = useState(post?.cover_image || '')
   const [saving, setSaving] = useState(false)
   const [savedPostId, setSavedPostId] = useState(post?.id || '')
+  const [publishedAt, setPublishedAt] = useState(post?.published_at || null)
   const [titleCandidates, setTitleCandidates] = useState<string[]>([])
 
   const editor = useEditor({
@@ -91,7 +94,8 @@ export default function NewPostEditor({ categories, post }: Props) {
 
       const bodySection = content.match(/## 본문\n([\s\S]*?)(?=\n## |$)/)
       if (bodySection && editor) {
-        editor.commands.setContent(bodySection[1].trim())
+        const html = marked.parse(bodySection[1].trim()) as string
+        editor.commands.setContent(html)
       }
 
       const seoSection = content.match(/## SEO\n([\s\S]*?)$/)
@@ -113,6 +117,11 @@ export default function NewPostEditor({ categories, post }: Props) {
     const supabase = createClient()
     const finalStatus = publishStatus || status
 
+    const targetId = post?.id || savedPostId
+    const newPublishedAt = finalStatus === 'published'
+      ? (publishedAt || new Date().toISOString())
+      : null
+
     const payload = {
       title: title.trim(),
       slug: slug.trim() || slugifyKo(title),
@@ -123,13 +132,14 @@ export default function NewPostEditor({ categories, post }: Props) {
       seo_title: seoTitle,
       seo_description: seoDescription,
       cover_image: coverImage,
-      published_at: finalStatus === 'published' ? new Date().toISOString() : null,
+      published_at: newPublishedAt,
     }
 
     try {
-      if (post?.id) {
-        await supabase.from('posts').update(payload).eq('id', post.id)
-        setSavedPostId(post.id)
+      if (targetId) {
+        const { error } = await supabase.from('posts').update(payload).eq('id', targetId)
+        if (error) throw error
+        setSavedPostId(targetId)
       } else {
         const { data, error } = await supabase.from('posts').insert(payload).select('id').single()
         if (error) throw error
@@ -137,6 +147,7 @@ export default function NewPostEditor({ categories, post }: Props) {
       }
 
       setStatus(finalStatus)
+      setPublishedAt(newPublishedAt)
       if (finalStatus === 'published') {
         alert('발행되었습니다!')
       } else {

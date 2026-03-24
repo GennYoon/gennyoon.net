@@ -18,7 +18,7 @@ export default function PostCard({ post, large }: { post: Post; large?: boolean 
 
   return (
     <Link
-      href={`/blog/${post.slug}`}
+      href={`/blog/${post.id}`}
       className={`group block${large ? ' md:col-span-2' : ''}`}
     >
       <div className="h-full p-1.5 rounded-2xl bg-zinc-800/30 border border-zinc-700/40 hover:border-emerald-500/20 transition-all duration-500 hover:bg-zinc-800/40">

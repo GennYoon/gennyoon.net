@@ -13,7 +13,7 @@ export default async function EditPostPage({ params }: Props) {
   const [{ data: post }, { data: categories }] = await Promise.all([
     supabase
       .from('posts')
-      .select('id, title, slug, content, content_markdown, cover_image, category_id, status, seo_title, seo_description')
+      .select('id, title, slug, content, content_markdown, cover_image, category_id, status, seo_title, seo_description, published_at')
       .eq('id', id)
       .single(),
     supabase.from('categories').select('id, slug, name, emoji').order('name'),

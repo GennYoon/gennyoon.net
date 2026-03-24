@@ -1,5 +1,4 @@
-import { generateText } from 'ai'
-import { glm, GLM_MODELS } from '@/lib/glm'
+import { glmText, GLM_MODELS } from '@/lib/glm'
 
 const ACTION_PROMPTS: Record<string, string> = {
   rewrite: '같은 내용을 다른 표현으로 다시 써줘. 원문보다 자연스럽게.',
@@ -21,8 +20,8 @@ export async function POST(request: Request) {
       return new Response('Invalid action', { status: 400 })
     }
 
-    const { text } = await generateText({
-      model: glm(GLM_MODELS.default),
+    const text = await glmText({
+      model: GLM_MODELS.default,
       messages: [
         {
           role: 'user',

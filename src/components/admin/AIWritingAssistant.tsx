@@ -28,6 +28,7 @@ export default function AIWritingAssistant({ onGenerated, categories }: Props) {
 
   const { completion, complete, isLoading } = useCompletion({
     api: '/api/ai/generate',
+    streamProtocol: 'text',
     onFinish: () => {},
   })
 
