@@ -23,7 +23,7 @@ export default async function PostsListPage() {
       </div>
 
       {/* 모바일 카드 */}
-      <div className="md:hidden space-y-3">
+      <div className="block md:hidden space-y-3">
         {posts?.map((post) => {
           const cat = post.categories as unknown as { name: string; slug: string; emoji: string } | null
           const crossPosts = post.cross_posts as unknown as { platform: string }[] | null
