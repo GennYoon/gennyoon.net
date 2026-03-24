@@ -5,7 +5,7 @@ export const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SECRET_KEY!,
   {
-    db: { schema: 'gennyoon' },
+    db: { schema: process.env.NEXT_PUBLIC_SUPABASE_SCHEMA || 'gennyoon' },
     auth: { autoRefreshToken: false, persistSession: false },
   }
 )

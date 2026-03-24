@@ -8,7 +8,7 @@ export async function createClient() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
     {
-      db: { schema: 'gennyoon' },
+      db: { schema: process.env.NEXT_PUBLIC_SUPABASE_SCHEMA || 'gennyoon' },
       cookies: {
         getAll() {
           return cookieStore.getAll()
