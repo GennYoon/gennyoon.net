@@ -22,8 +22,11 @@ export default async function PostsListPage() {
         </Link>
       </div>
 
-      {/* 모바일 카드 */}
-      <div className="block md:hidden space-y-3">
+      {!posts?.length && (
+        <p className="text-center text-zinc-600 text-sm py-12">글이 없습니다.</p>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {posts?.map((post) => {
           const cat = post.categories as unknown as { name: string; slug: string; emoji: string } | null
           const crossPosts = post.cross_posts as unknown as { platform: string }[] | null
@@ -33,10 +36,11 @@ export default async function PostsListPage() {
             <Link
               key={post.id}
               href={`/admin/posts/${post.id}`}
-              className="block bg-zinc-900/60 border border-zinc-800/60 rounded-xl p-4 hover:border-zinc-700 transition-colors"
+              className="flex flex-col bg-zinc-900/60 border border-zinc-800/60 rounded-xl p-4 hover:border-zinc-700 hover:bg-zinc-900/80 transition-colors gap-3"
             >
-              <div className="flex items-start justify-between gap-3 mb-2">
-                <p className="text-sm font-medium text-zinc-100 line-clamp-2 flex-1">{post.title}</p>
+              {/* 제목 + 상태 */}
+              <div className="flex items-start justify-between gap-3">
+                <p className="text-sm font-semibold text-zinc-100 line-clamp-2 flex-1 leading-snug">{post.title}</p>
                 <span className={`shrink-0 text-xs px-2 py-0.5 rounded-full border ${
                   post.status === 'published'
                     ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
@@ -45,99 +49,39 @@ export default async function PostsListPage() {
                   {post.status === 'published' ? '발행' : '임시저장'}
                 </span>
               </div>
+
+              {/* 카테고리 + 조회수 */}
               <div className="flex items-center gap-3 text-xs text-zinc-500">
-                {cat && <span>{cat.emoji} {cat.name}</span>}
-                <span>👁 {post.view_count?.toLocaleString() ?? 0}</span>
-                {post.published_at && <span>{formatDate(post.published_at)}</span>}
+                {cat
+                  ? <span className="flex items-center gap-1">{cat.emoji} {cat.name}</span>
+                  : <span className="text-zinc-700">카테고리 없음</span>
+                }
+                <span className="flex items-center gap-1">👁 {post.view_count?.toLocaleString() ?? 0}</span>
               </div>
-              {platforms.length > 0 && (
-                <div className="flex gap-1 mt-2">
+
+              {/* 발행일 + 크로스포스팅 */}
+              <div className="flex items-center justify-between mt-auto">
+                <span className="text-xs text-zinc-600">
+                  {post.published_at ? formatDate(post.published_at) : '미발행'}
+                </span>
+                <div className="flex gap-1">
                   {['devto', 'medium', 'linkedin'].map((platform) => (
                     <span
                       key={platform}
-                      className={`text-xs px-1.5 py-0.5 rounded ${
+                      className={`text-xs px-1.5 py-0.5 rounded border ${
                         platforms.includes(platform)
-                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                          : 'bg-zinc-800/60 text-zinc-700 border border-zinc-700/40'
+                          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                          : 'bg-zinc-800/60 text-zinc-700 border-zinc-700/40'
                       }`}
                     >
                       {platform}
                     </span>
                   ))}
                 </div>
-              )}
+              </div>
             </Link>
           )
         })}
-        {!posts?.length && (
-          <p className="text-center text-zinc-600 text-sm py-12">글이 없습니다.</p>
-        )}
-      </div>
-
-      {/* 데스크탑 테이블 */}
-      <div className="hidden md:block bg-zinc-900/60 border border-zinc-800/60 rounded-xl overflow-hidden">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-zinc-800/60">
-              {['제목', '카테고리', '상태', '조회수', '크로스포스팅', '발행일', ''].map((h) => (
-                <th key={h} className="text-left px-4 py-3 text-xs font-medium text-zinc-600 uppercase tracking-wider">
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {posts?.map((post) => {
-              const cat = post.categories as unknown as { name: string; slug: string; emoji: string } | null
-              const crossPosts = post.cross_posts as unknown as { platform: string }[] | null
-              const platforms = crossPosts?.map((cp) => cp.platform) || []
-
-              return (
-                <tr key={post.id} className="border-b border-zinc-800/40 last:border-0 hover:bg-zinc-800/30 transition-colors">
-                  <td className="px-4 py-3">
-                    <Link href={`/admin/posts/${post.id}`} className="text-sm font-medium text-zinc-200 hover:text-emerald-400 line-clamp-1 max-w-xs transition-colors">
-                      {post.title}
-                    </Link>
-                  </td>
-                  <td className="px-4 py-3">
-                    {cat && <span className="text-sm text-zinc-500">{cat.emoji} {cat.name}</span>}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`text-xs px-2 py-0.5 rounded-full border ${
-                      post.status === 'published'
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                        : 'bg-zinc-800 text-zinc-500 border-zinc-700/40'
-                    }`}>
-                      {post.status === 'published' ? '발행' : '임시저장'}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-sm text-zinc-600">{post.view_count?.toLocaleString() ?? 0}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex gap-1">
-                      {['devto', 'medium', 'linkedin'].map((platform) => (
-                        <span key={platform} className={`text-xs px-1.5 py-0.5 rounded ${
-                          platforms.includes(platform)
-                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                            : 'bg-zinc-800/60 text-zinc-700 border border-zinc-700/40'
-                        }`}>
-                          {platform}
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-sm text-zinc-600">
-                    {post.published_at ? formatDate(post.published_at) : '-'}
-                  </td>
-                  <td className="px-4 py-3">
-                    <Link href={`/admin/posts/${post.id}`} className="text-xs text-emerald-500 hover:text-emerald-400 transition-colors">
-                      수정
-                    </Link>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
       </div>
     </div>
   )
