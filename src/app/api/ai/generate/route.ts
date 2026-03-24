@@ -1,5 +1,4 @@
-import { streamText } from 'ai'
-import { glm, GLM_MODELS } from '@/lib/glm'
+import { glmStream, GLM_MODELS } from '@/lib/glm'
 import { createClient } from '@/lib/supabase/server'
 
 const DEFAULT_SYSTEM_PROMPT = `당신은 전직 CTO이자 AI 노마드인 GennYoon의 블로그 편집자입니다.
@@ -20,7 +19,7 @@ const DEFAULT_SYSTEM_PROMPT = `당신은 전직 CTO이자 AI 노마드인 GennYo
 
 export async function POST(request: Request) {
   try {
-    const { rawInput, images, categorySlug, tone } = await request.json()
+    const { rawInput, categorySlug, tone } = await request.json()
 
     if (!rawInput) {
       return new Response('rawInput is required', { status: 400 })
@@ -48,31 +47,20 @@ export async function POST(request: Request) {
     }
     const toneInstruction = toneMap[tone] || toneMap.friendly
 
-    const userMessage = images?.length
-      ? [
-          {
-            type: 'text' as const,
-            text: `다음 재료로 블로그 글을 ${toneInstruction} 작성해줘:\n\n${rawInput}`,
-          },
-          ...images.map((url: string) => ({
-            type: 'image' as const,
-            image: url,
-          })),
-        ]
-      : `다음 재료로 블로그 글을 ${toneInstruction} 작성해줘:\n\n${rawInput}`
-
-    const result = streamText({
-      model: glm(GLM_MODELS.powerful),
+    const stream = await glmStream({
+      model: GLM_MODELS.powerful,
       system: systemPrompt,
       messages: [
         {
           role: 'user',
-          content: userMessage,
+          content: `다음 재료로 블로그 글을 ${toneInstruction} 작성해줘:\n\n${rawInput}`,
         },
       ],
     })
 
-    return result.toTextStreamResponse()
+    return new Response(stream, {
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    })
   } catch (error) {
     console.error('AI generate error:', error)
     return new Response('Internal Server Error', { status: 500 })

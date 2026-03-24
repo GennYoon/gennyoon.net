@@ -1,5 +1,4 @@
-import { generateText } from 'ai'
-import { glm, GLM_MODELS } from '@/lib/glm'
+import { glmText, GLM_MODELS } from '@/lib/glm'
 
 export async function POST(request: Request) {
   try {
@@ -9,8 +8,8 @@ export async function POST(request: Request) {
       return new Response('title and content are required', { status: 400 })
     }
 
-    const { text } = await generateText({
-      model: glm(GLM_MODELS.default),
+    const text = await glmText({
+      model: GLM_MODELS.default,
       messages: [
         {
           role: 'user',
