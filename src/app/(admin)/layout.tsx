@@ -36,6 +36,7 @@ export default async function AdminLayout({
             { href: '/admin', label: '대시보드', icon: 'solar:chart-2-bold' },
             { href: '/admin/posts', label: '글 목록', icon: 'solar:notebook-bold' },
             { href: '/admin/posts/new', label: '새 글 작성', icon: 'solar:pen-bold' },
+            { href: '/admin/categories', label: '카테고리', icon: 'solar:tag-bold' },
             { href: '/admin/prompts', label: 'AI 프롬프트', icon: 'solar:cpu-bolt-bold' },
           ].map((item) => (
             <Link
