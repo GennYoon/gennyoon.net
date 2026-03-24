@@ -6,6 +6,6 @@ export const glm = createOpenAI({
 })
 
 export const GLM_MODELS = {
-  default: 'glm-4-flash',   // 빠른 응답 (단락 수정, 번역)
-  powerful: 'glm-4-plus',   // 긴 글 초안 생성
+  default: 'glm-5-turbo',  // 빠른 응답 (단락 수정, 번역)
+  powerful: 'glm-5',       // 긴 글 초안 생성
 }
