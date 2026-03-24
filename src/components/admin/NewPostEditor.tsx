@@ -52,6 +52,7 @@ export default function NewPostEditor({ categories, post }: Props) {
   const [coverImage, setCoverImage] = useState(post?.cover_image || '')
   const [saving, setSaving] = useState(false)
   const [savedPostId, setSavedPostId] = useState(post?.id || '')
+  const [mobileTab, setMobileTab] = useState<'ai' | 'editor'>('ai')
   const [publishedAt, setPublishedAt] = useState(post?.published_at || null)
   const [titleCandidates, setTitleCandidates] = useState<string[]>([])
 
@@ -187,7 +188,24 @@ export default function NewPostEditor({ categories, post }: Props) {
   )
 
   return (
-    <div className="flex h-[calc(100vh-64px)]">
+    <div className="flex flex-col md:flex-row h-[calc(100vh-64px)] md:h-[calc(100vh-64px)]">
+      {/* 모바일 탭 */}
+      <div className="md:hidden flex border-b border-zinc-800/60 bg-zinc-900/40 shrink-0">
+        {(['ai', 'editor'] as const).map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setMobileTab(tab)}
+            className={`flex-1 py-2.5 text-xs font-medium transition-colors ${
+              mobileTab === tab
+                ? 'text-emerald-400 border-b-2 border-emerald-500'
+                : 'text-zinc-500 hover:text-zinc-300'
+            }`}
+          >
+            {tab === 'ai' ? '✨ AI 어시스턴트' : '✏️ 에디터'}
+          </button>
+        ))}
+      </div>
+
       {/* 제목 후보 모달 */}
       {titleCandidates.length > 0 && (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
@@ -220,8 +238,8 @@ export default function NewPostEditor({ categories, post }: Props) {
         </div>
       )}
 
-      {/* 왼쪽: AI 어시스턴트 */}
-      <div className="w-[40%] border-r border-zinc-800/60 overflow-y-auto p-4 bg-zinc-900/30">
+      {/* AI 어시스턴트 */}
+      <div className={`${mobileTab === 'ai' ? 'flex' : 'hidden'} md:flex w-full md:w-[40%] border-r border-zinc-800/60 overflow-y-auto p-4 bg-zinc-900/30 flex-col`}>
         <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-4">✨ AI 글쓰기 어시스턴트</h2>
         <AIWritingAssistant
           categories={categories}
@@ -229,8 +247,8 @@ export default function NewPostEditor({ categories, post }: Props) {
         />
       </div>
 
-      {/* 오른쪽: 에디터 */}
-      <div className="w-[60%] flex flex-col overflow-hidden">
+      {/* 에디터 */}
+      <div className={`${mobileTab === 'editor' ? 'flex' : 'hidden'} md:flex w-full md:w-[60%] flex-col overflow-hidden`}>
         {/* 툴바 */}
         {editor && (
           <div className="flex items-center gap-1 px-4 py-2 border-b border-zinc-800/60 bg-zinc-900/40 flex-wrap">
