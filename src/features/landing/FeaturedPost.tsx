@@ -37,10 +37,7 @@ export function FeaturedPost({ post }: Props) {
                         className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
                       />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-6xl opacity-20">{cat?.emoji ?? '✍'}</div>
-                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-zinc-900/60" />
-                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-zinc-900/60" />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent to-zinc-900/80 hidden md:block" />
                   </div>
@@ -49,8 +46,11 @@ export function FeaturedPost({ post }: Props) {
                   <div className="p-8 md:p-10 md:w-96 flex flex-col justify-between">
                     <div>
                       {cat && (
-                        <div className="flex items-center gap-1.5 mb-6">
-                          <span className="text-base">{cat.emoji}</span>
+                        <div className="flex items-center gap-2 mb-6">
+                          <span
+                            className="w-1.5 h-1.5 rounded-full shrink-0"
+                            style={{ background: '#10b981' }}
+                          />
                           <span className="text-zinc-500 text-xs font-medium">{cat.name}</span>
                         </div>
                       )}

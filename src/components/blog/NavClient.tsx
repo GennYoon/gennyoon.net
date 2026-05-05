@@ -1,8 +1,5 @@
-'use client'
-
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { Link, useLocation } from 'react-router-dom'
 
 interface Category {
   name: string
@@ -13,7 +10,7 @@ interface Category {
 export default function NavClient({ categories }: { categories: Category[] }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const pathname = usePathname()
+  const { pathname } = useLocation()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -28,7 +25,7 @@ export default function NavClient({ categories }: { categories: Category[] }) {
   return (
     <>
       {/* Floating Pill Nav */}
-      <nav className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 w-auto`}>
+      <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 w-auto">
         <div
           className={`flex items-center gap-1 px-3 py-2 rounded-full border transition-all duration-500 ${
             scrolled
@@ -37,7 +34,7 @@ export default function NavClient({ categories }: { categories: Category[] }) {
           }`}
         >
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-zinc-800/60 transition-all duration-300 mr-1">
+          <Link to="/" className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-zinc-800/60 transition-all duration-300 mr-1">
             <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
               <span className="text-emerald-400 text-[10px] font-bold">G</span>
             </div>
@@ -53,14 +50,14 @@ export default function NavClient({ categories }: { categories: Category[] }) {
             {categories.slice(0, 4).map((cat) => (
               <Link
                 key={cat.slug}
-                href={`/category/${cat.slug}`}
+                to={`/category/${cat.slug}`}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-300 ${
                   pathname === `/category/${cat.slug}`
                     ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60'
                 }`}
               >
-                {cat.emoji} {cat.name}
+                {cat.name}
               </Link>
             ))}
           </div>
@@ -83,15 +80,15 @@ export default function NavClient({ categories }: { categories: Category[] }) {
           {categories.map((cat, i) => (
             <Link
               key={cat.slug}
-              href={`/category/${cat.slug}`}
+              to={`/category/${cat.slug}`}
               style={{ animationDelay: `${i * 60}ms` }}
               className="reveal text-2xl font-bold text-zinc-300 hover:text-emerald-400 transition-colors duration-300"
             >
-              {cat.emoji} {cat.name}
+              {cat.name}
             </Link>
           ))}
           <Link
-            href="/"
+            to="/"
             style={{ animationDelay: `${categories.length * 60}ms` }}
             className="reveal mt-4 text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
           >

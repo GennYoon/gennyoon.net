@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { formatDate } from '@/lib/utils'
 
 type Post = {
@@ -18,7 +18,7 @@ export default function PostCard({ post, large }: { post: Post; large?: boolean 
 
   return (
     <Link
-      href={`/blog/${post.id}`}
+      to={`/blog/${post.slug}`}
       className={`group block${large ? ' md:col-span-2' : ''}`}
     >
       <div className="h-full p-1.5 rounded-2xl bg-zinc-800/30 border border-zinc-700/40 hover:border-emerald-500/20 transition-all duration-500 hover:bg-zinc-800/40">
@@ -32,8 +32,7 @@ export default function PostCard({ post, large }: { post: Post; large?: boolean 
                 className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
               />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-900">
-                <span className="text-5xl opacity-20">{cat?.emoji ?? '✍'}</span>
+              <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 to-zinc-900">
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/10 to-zinc-900/60" />
               </div>
             )}
@@ -42,8 +41,11 @@ export default function PostCard({ post, large }: { post: Post; large?: boolean 
           {/* Content */}
           <div className="flex flex-col flex-1 p-5">
             {cat && (
-              <div className="flex items-center gap-1.5 mb-3">
-                <span className="text-sm">{cat.emoji}</span>
+              <div className="flex items-center gap-2 mb-3">
+                <span
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ background: '#10b981' }}
+                />
                 <span className="text-zinc-500 text-xs font-medium">{cat.name}</span>
               </div>
             )}

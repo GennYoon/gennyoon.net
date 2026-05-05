@@ -1,9 +1,8 @@
-'use client'
-
 import { useEffect } from 'react'
+import { supabase } from '@/lib/supabase/client'
 
 const STORAGE_KEY = 'viewed_posts'
-const COOLDOWN_MS = 24 * 60 * 60 * 1000 // 24시간
+const COOLDOWN_MS = 24 * 60 * 60 * 1000
 
 export default function ViewCounter({ slug }: { slug: string }) {
   useEffect(() => {
@@ -15,14 +14,13 @@ export default function ViewCounter({ slug }: { slug: string }) {
 
       if (lastViewed && now - lastViewed < COOLDOWN_MS) return
 
-      // fetch 전에 먼저 기록 → Strict Mode 2번 실행 방어
       viewed[slug] = now
       for (const key in viewed) {
         if (now - viewed[key] > 7 * 24 * 60 * 60 * 1000) delete viewed[key]
       }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(viewed))
 
-      fetch(`/api/posts/${slug}/view`, { method: 'POST' })
+      supabase.rpc('increment_view_count', { post_slug: slug })
     } catch {
       // localStorage 접근 불가(시크릿 모드 등) 시 무시
     }

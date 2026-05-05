@@ -23,7 +23,10 @@ export function CategoryStrip({ categories }: Props) {
                 to={`/category/${cat.slug}`}
                 className="group flex items-center gap-2 px-4 py-2.5 rounded-full border border-zinc-800/80 bg-zinc-900/40 hover:border-emerald-500/30 hover:bg-emerald-500/5 text-zinc-400 hover:text-emerald-400 text-sm font-medium transition-all duration-500"
               >
-                <span>{cat.emoji}</span>
+                <span
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ background: cat.color || '#10b981' }}
+                />
                 <span>{cat.name}</span>
                 {/* @ts-expect-error iconify */}
                 <iconify-icon

@@ -107,10 +107,14 @@ export function Hero({ posts, categories }: Props) {
                   {categories.slice(0, 4).map((cat) => (
                     <div
                       key={cat.slug}
-                      className="flex items-center justify-between gap-1"
+                      className="flex items-center gap-2"
                     >
+                      <span
+                        className="w-1 h-1 rounded-full shrink-0"
+                        style={{ background: cat.color || '#10b981' }}
+                      />
                       <span className="text-[11px] text-zinc-500 truncate">
-                        {cat.emoji} {cat.name}
+                        {cat.name}
                       </span>
                     </div>
                   ))}
