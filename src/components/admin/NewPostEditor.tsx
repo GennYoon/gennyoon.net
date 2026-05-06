@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useCallback } from 'react'
 import { marked } from 'marked'
 import { useEditor, EditorContent } from '@tiptap/react'
@@ -7,8 +5,8 @@ import StarterKit from '@tiptap/starter-kit'
 import ImageExtension from '@tiptap/extension-image'
 import LinkExtension from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
-import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { useNavigate } from 'react-router-dom'
+import { supabase } from '@/lib/supabase/client'
 import { slugifyKo } from '@/lib/utils'
 import AIWritingAssistant from './AIWritingAssistant'
 import CrossPostPanel from './CrossPostPanel'
@@ -42,7 +40,7 @@ interface Props {
 }
 
 export default function NewPostEditor({ categories, post }: Props) {
-  const router = useRouter()
+  const navigate = useNavigate()
   const [title, setTitle] = useState(post?.title || '')
   const [slug, setSlug] = useState(post?.slug || '')
   const [categoryId, setCategoryId] = useState(post?.category_id || '')
@@ -55,6 +53,10 @@ export default function NewPostEditor({ categories, post }: Props) {
   const [mobileTab, setMobileTab] = useState<'ai' | 'editor'>('ai')
   const [publishedAt, setPublishedAt] = useState(post?.published_at || null)
   const [titleCandidates, setTitleCandidates] = useState<string[]>([])
+
+  // suppress unused warning
+  void navigate
+  void setPublishedAt
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -115,7 +117,6 @@ export default function NewPostEditor({ categories, post }: Props) {
     }
 
     setSaving(true)
-    const supabase = createClient()
     const finalStatus = publishStatus || status
 
     const targetId = post?.id || savedPostId
@@ -148,7 +149,7 @@ export default function NewPostEditor({ categories, post }: Props) {
       }
 
       setStatus(finalStatus)
-      setPublishedAt(newPublishedAt)
+      if (newPublishedAt !== undefined) setPublishedAt(newPublishedAt)
       if (finalStatus === 'published') {
         alert('발행되었습니다!')
       } else {
@@ -188,7 +189,7 @@ export default function NewPostEditor({ categories, post }: Props) {
   )
 
   return (
-    <div className="flex flex-col md:flex-row h-[calc(100vh-64px)] md:h-[calc(100vh-64px)]">
+    <div className="flex flex-col md:flex-row h-[calc(100vh-64px)]">
       {/* 모바일 탭 */}
       <div className="md:hidden flex border-b border-zinc-800/60 bg-zinc-900/40 shrink-0">
         {(['ai', 'editor'] as const).map((tab) => (

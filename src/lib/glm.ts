@@ -1,8 +1,8 @@
 const BASE_URL = 'https://api.z.ai/api/anthropic/v1/messages'
 
 export const GLM_MODELS = {
-  default: 'claude-3-5-haiku-20241022',  // 빠른 응답 → glm-4.5-air
-  powerful: 'claude-sonnet-4-5',         // 긴 글 초안 → glm-4.7
+  default: 'claude-3-5-haiku-20241022',
+  powerful: 'claude-sonnet-4-5',
 }
 
 interface Message {
@@ -21,7 +21,7 @@ export async function glmStream(options: GLMOptions): Promise<ReadableStream<Uin
   const res = await fetch(BASE_URL, {
     method: 'POST',
     headers: {
-      'x-api-key': process.env.GLM_API_KEY!,
+      'x-api-key': import.meta.env.VITE_GLM_API_KEY,
       'anthropic-version': '2023-06-01',
       'Content-Type': 'application/json',
     },
@@ -81,7 +81,7 @@ export async function glmText(options: GLMOptions): Promise<string> {
   const res = await fetch(BASE_URL, {
     method: 'POST',
     headers: {
-      'x-api-key': process.env.GLM_API_KEY!,
+      'x-api-key': import.meta.env.VITE_GLM_API_KEY,
       'anthropic-version': '2023-06-01',
       'Content-Type': 'application/json',
     },

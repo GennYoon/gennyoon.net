@@ -1,6 +1,9 @@
 -- Extensions
 create extension if not exists "uuid-ossp";
 
+-- Schema
+create schema if not exists gennyoon;
+
 -- Categories
 create table gennyoon.categories (
   id uuid default gen_random_uuid() primary key,
@@ -113,9 +116,6 @@ alter default privileges for role postgres in schema gennyoon
 alter default privileges for role postgres in schema gennyoon
   grant all on sequences to anon, authenticated, service_role;
 
--- PostgREST search_path 설정
-alter role authenticator set search_path to gennyoon, public;
-
 -- RLS 활성화
 alter table gennyoon.posts enable row level security;
 alter table gennyoon.categories enable row level security;
@@ -174,7 +174,8 @@ insert into gennyoon.categories (name, slug, color, emoji) values
   ('AI 개발팀', 'ai-dev-team', '#8b5cf6', '⚙️'),
   ('AI 마케팅', 'ai-marketing', '#f59e0b', '📢'),
   ('AI 영상', 'ai-video', '#ec4899', '🎬'),
-  ('노마드 라이프', 'nomad-life', '#10b981', '✈️');
+  ('노마드 라이프', 'nomad-life', '#10b981', '✈️')
+on conflict (slug) do nothing;
 
 -- 기본 AI 프롬프트 데이터
 insert into gennyoon.ai_prompts (category_slug, category_name, system_prompt) values
@@ -228,4 +229,5 @@ GennYoon 소개:
 
 ## SEO
 - description: [100자 이내]
-- 태그: [tag1, tag2, tag3, tag4, tag5]');
+- 태그: [tag1, tag2, tag3, tag4, tag5]')
+on conflict (category_slug) do nothing;
