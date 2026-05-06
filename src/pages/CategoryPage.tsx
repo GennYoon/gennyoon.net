@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import { supabase } from '@/lib/supabase/client'
 import PostCard from '@/components/blog/PostCard'
 
@@ -71,10 +70,8 @@ export default function CategoryPage() {
 
   return (
     <>
-      <Helmet>
-        <title>{category.name} | gennyoon.net</title>
-        <meta name="description" content={`GennYoon의 ${category.name} 관련 글 모음`} />
-      </Helmet>
+      <title>{category.name} | gennyoon.net</title>
+      <meta name="description" content={`GennYoon의 ${category.name} 관련 글 모음`} />
 
       <div className="min-h-[100dvh] pt-32 pb-24">
         <div className="max-w-6xl mx-auto px-6">

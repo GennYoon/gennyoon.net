@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Helmet } from 'react-helmet-async'
 import { supabase } from '@/lib/supabase/client'
 import { Hero } from '@/features/landing/Hero'
 import { CategoryStrip } from '@/features/landing/CategoryStrip'
@@ -36,13 +35,11 @@ export default function LandingPage() {
 
   return (
     <>
-      <Helmet>
-        <title>gennyoon.net</title>
-        <meta
-          name="description"
-          content="노마드 코더 GennYoon의 AI 개발 블로그. AI로 만들고, 배우고, 기록합니다."
-        />
-      </Helmet>
+      <title>gennyoon.net</title>
+      <meta
+        name="description"
+        content="노마드 코더 GennYoon의 AI 개발 블로그. AI로 만들고, 배우고, 기록합니다."
+      />
 
       <div className="min-h-[100dvh]">
         <Hero posts={posts} categories={categories} />
