@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import { supabase } from '@/lib/supabase/client'
 import { formatDate } from '@/lib/utils'
 import ViewCounter from '@/components/blog/ViewCounter'
@@ -53,13 +52,11 @@ export default function BlogPostPage() {
 
   return (
     <>
-      <Helmet>
-        <title>{post.seo_title || post.title} | gennyoon.net</title>
-        {post.seo_description && <meta name="description" content={post.seo_description} />}
-        <meta property="og:title" content={post.seo_title || post.title} />
-        {post.seo_description && <meta property="og:description" content={post.seo_description} />}
-        <meta property="og:type" content="article" />
-      </Helmet>
+      <title>{post.seo_title || post.title} | gennyoon.net</title>
+      {post.seo_description && <meta name="description" content={post.seo_description} />}
+      <meta property="og:title" content={post.seo_title || post.title} />
+      {post.seo_description && <meta property="og:description" content={post.seo_description} />}
+      <meta property="og:type" content="article" />
 
       <article className="min-h-[100dvh] pt-32 pb-24">
         <ViewCounter slug={post.slug} />
