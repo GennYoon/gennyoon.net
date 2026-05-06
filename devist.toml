@@ -1,0 +1,21 @@
+[meta]
+name = "react-supabase"
+version = "0.2.0"
+description = "React + Vite + TypeScript + Supabase + Tailwind v4 + shadcn/ui + Biome"
+author = "Webchemist"
+tags = ["frontend", "fullstack", "supabase", "react", "blog"]
+
+[variables]
+project_name = { prompt = "Project name", default = "Blog" }
+agent_mode = { prompt = "AI agent mode (devist | vibe)", default = "devist" }
+description = { prompt = "Description", default = "GennYoon blog (gennyoon.net)" }
+
+[stack]
+type = "supabase"
+
+[commands]
+install = "pnpm install"
+dev = "pnpm dev"
+backend_start = "supabase start"
+backend_stop = "supabase stop"
+test = "pnpm test"
