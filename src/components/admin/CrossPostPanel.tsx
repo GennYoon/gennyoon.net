@@ -1,7 +1,5 @@
-'use client'
-
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { supabase } from '@/lib/supabase/client'
 import { Loader2, ExternalLink, Check } from 'lucide-react'
 
 interface CrossPost {
@@ -19,8 +17,10 @@ export default function CrossPostPanel({ postId, postStatus }: Props) {
   const [loading, setLoading] = useState<Record<string, boolean>>({})
   const [errors, setErrors] = useState<Record<string, string>>({})
 
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+  const publishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+
   useEffect(() => {
-    const supabase = createClient()
     supabase
       .from('cross_posts')
       .select('platform, external_url')
@@ -31,19 +31,22 @@ export default function CrossPostPanel({ postId, postStatus }: Props) {
   }, [postId])
 
   const platforms = [
-    { key: 'linkedin', label: 'LinkedIn', desc: '한국어', emoji: '💼', endpoint: '/api/crosspost/linkedin' },
-    { key: 'medium', label: 'Medium', desc: '영어 번역', emoji: '📝', endpoint: '/api/crosspost/medium' },
-    { key: 'devto', label: 'Dev.to', desc: '영어', emoji: '👩‍💻', endpoint: '/api/crosspost/devto' },
+    { key: 'linkedin', label: 'LinkedIn', desc: '한국어', emoji: '💼', fn: 'crosspost-linkedin' },
+    { key: 'medium', label: 'Medium', desc: '영어 번역', emoji: '📝', fn: 'crosspost-medium' },
+    { key: 'devto', label: 'Dev.to', desc: '영어', emoji: '👩‍💻', fn: 'crosspost-devto' },
   ]
 
-  async function handlePost(platform: string, endpoint: string) {
+  async function handlePost(platform: string, fnName: string) {
     setLoading((prev) => ({ ...prev, [platform]: true }))
     setErrors((prev) => ({ ...prev, [platform]: '' }))
 
     try {
-      const res = await fetch(endpoint, {
+      const res = await fetch(`${supabaseUrl}/functions/v1/${fnName}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${publishableKey}`,
+        },
         body: JSON.stringify({ postId }),
       })
 
@@ -78,7 +81,7 @@ export default function CrossPostPanel({ postId, postStatus }: Props) {
       )}
 
       <div className="space-y-2">
-        {platforms.map(({ key, label, desc, emoji, endpoint }) => {
+        {platforms.map(({ key, label, desc, emoji, fn }) => {
           const posted = crossPosts.find((cp) => cp.platform === key)
           const isLoading = loading[key]
           const error = errors[key]
@@ -108,7 +111,7 @@ export default function CrossPostPanel({ postId, postStatus }: Props) {
                   </a>
                 ) : (
                   <button
-                    onClick={() => handlePost(key, endpoint)}
+                    onClick={() => handlePost(key, fn)}
                     disabled={isDisabled || isLoading}
                     className="px-3 py-1.5 text-xs border border-zinc-700/60 text-zinc-400 rounded-lg hover:bg-zinc-700/40 hover:text-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5"
                   >
