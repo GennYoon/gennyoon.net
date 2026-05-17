@@ -63,8 +63,8 @@ serve(async (req) => {
     { db: { schema: 'public' } }
   )
 
-  await supabase.from('linkedin_tokens').upsert({
-    id: 1,
+  await supabase.from('linkedin_tokens').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+  await supabase.from('linkedin_tokens').insert({
     access_token,
     person_urn: personUrn,
     expires_at: expiresAt,

@@ -22,7 +22,7 @@ serve(async (req) => {
     )
 
     // DB에서 토큰 조회
-    const { data: token } = await supabase.from('linkedin_tokens').select('*').eq('id', 1).single()
+    const { data: token } = await supabase.from('linkedin_tokens').select('*').order('created_at', { ascending: false }).limit(1).single()
     if (!token) return new Response('LinkedIn 연동이 필요합니다.', { status: 401, headers: corsHeaders })
 
     if (new Date(token.expires_at) < new Date()) {

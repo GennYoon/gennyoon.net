@@ -43,7 +43,8 @@ const CrossPostPanel: React.FC<Props> = ({ postId, postStatus }) => {
     supabase
       .from('linkedin_tokens')
       .select('expires_at')
-      .eq('id', 1)
+      .order('created_at', { ascending: false })
+      .limit(1)
       .single()
       .then(({ data }) => {
         setLinkedinConnected(!!data && new Date(data.expires_at) > new Date())

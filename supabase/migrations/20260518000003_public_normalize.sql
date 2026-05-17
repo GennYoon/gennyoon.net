@@ -68,7 +68,7 @@ create table if not exists public.drafts (
 );
 
 create table if not exists public.linkedin_tokens (
-  id int primary key default 1 check (id = 1),
+  id uuid default gen_random_uuid() primary key,
   access_token text not null,
   person_urn text not null,
   expires_at timestamptz not null,
