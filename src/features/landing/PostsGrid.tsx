@@ -1,3 +1,4 @@
+import React from 'react'
 import ScrollReveal from '@/components/blog/ScrollReveal'
 import PostCard from '@/components/blog/PostCard'
 import type { Post } from './types'
@@ -6,7 +7,7 @@ interface Props {
   posts: Post[]
 }
 
-export function PostsGrid({ posts }: Props) {
+export const PostsGrid: React.FC<Props> = ({ posts }) => {
   if (posts.length === 0) return null
   return (
     <ScrollReveal>

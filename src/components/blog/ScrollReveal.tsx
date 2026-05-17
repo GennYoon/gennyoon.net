@@ -1,8 +1,12 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
-export default function ScrollReveal({ children }: { children: React.ReactNode }) {
+interface Props {
+  children: React.ReactNode
+}
+
+const ScrollReveal: React.FC<Props> = ({ children }) => {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -26,3 +30,5 @@ export default function ScrollReveal({ children }: { children: React.ReactNode }
 
   return <div ref={ref}>{children}</div>
 }
+
+export default ScrollReveal

@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { Menu, X } from 'lucide-react'
 
 interface Category {
   name: string
@@ -7,7 +8,11 @@ interface Category {
   emoji: string
 }
 
-export default function NavClient({ categories }: { categories: Category[] }) {
+interface Props {
+  categories: Category[]
+}
+
+const NavClient: React.FC<Props> = ({ categories }) => {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { pathname } = useLocation()
@@ -68,8 +73,7 @@ export default function NavClient({ categories }: { categories: Category[] }) {
             className="md:hidden w-8 h-8 flex items-center justify-center rounded-full text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 transition-all duration-300"
             aria-label="메뉴"
           >
-            {/* @ts-expect-error iconify */}
-            <iconify-icon icon={menuOpen ? 'solar:close-circle-linear' : 'solar:hamburger-menu-linear'} width="18" />
+            {menuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </nav>
@@ -99,3 +103,5 @@ export default function NavClient({ categories }: { categories: Category[] }) {
     </>
   )
 }
+
+export default NavClient

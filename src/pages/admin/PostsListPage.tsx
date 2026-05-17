@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
@@ -30,7 +30,7 @@ interface Post {
 
 const PAGE_SIZE = 12
 
-export default function PostsListPage() {
+const PostsListPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [categories, setCategories] = useState<Category[]>([])
   const [posts, setPosts] = useState<Post[]>([])
@@ -42,7 +42,7 @@ export default function PostsListPage() {
   const category = searchParams.get('category') || ''
   const q = searchParams.get('q') || ''
 
-  function update(key: string, value: string) {
+  const update = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString())
     if (value && value !== '__all__') params.set(key, value)
     else params.delete(key)
@@ -78,7 +78,7 @@ export default function PostsListPage() {
   const totalPages = Math.ceil(count / PAGE_SIZE)
   const hasFilter = q || status || category
 
-  function buildHref(p: number) {
+  const buildHref = (p: number) => {
     const params = new URLSearchParams(searchParams.toString())
     if (p > 1) params.set('page', String(p))
     else params.delete('page')
@@ -262,3 +262,5 @@ export default function PostsListPage() {
     </div>
   )
 }
+
+export default PostsListPage

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import { Loader2, Plus, Save, Trash2 } from 'lucide-react'
 
@@ -21,7 +21,7 @@ interface Props {
   categories: Category[]
 }
 
-export default function PromptsEditor({ prompts: initial, categories }: Props) {
+const PromptsEditor: React.FC<Props> = ({ prompts: initial, categories }) => {
   const [prompts, setPrompts] = useState<Prompt[]>(initial)
   const [selected, setSelected] = useState<Prompt | null>(initial[0] ?? null)
   const [editText, setEditText] = useState(initial[0]?.system_prompt ?? '')
@@ -242,3 +242,5 @@ export default function PromptsEditor({ prompts: initial, categories }: Props) {
     </div>
   )
 }
+
+export default PromptsEditor

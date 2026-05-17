@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase/client'
 import { formatDate } from '@/lib/utils'
+import { NotebookPen, CheckCircle, Eye, type LucideIcon } from 'lucide-react'
 
 interface RecentPost {
   id: string
@@ -13,7 +14,7 @@ interface RecentPost {
   categories?: unknown
 }
 
-export default function DashboardPage() {
+const DashboardPage: React.FC = () => {
   const [totalPosts, setTotalPosts] = useState(0)
   const [publishedPosts, setPublishedPosts] = useState(0)
   const [totalViews, setTotalViews] = useState(0)
@@ -53,17 +54,18 @@ export default function DashboardPage() {
 
       {/* 통계 카드 */}
       <div className="grid grid-cols-3 gap-4 mb-10">
-        {[
-          { label: '전체 글', value: totalPosts, icon: 'solar:notebook-bold' },
-          { label: '발행된 글', value: publishedPosts, icon: 'solar:check-circle-bold' },
-          { label: '총 조회수', value: totalViews.toLocaleString(), icon: 'solar:eye-bold' },
-        ].map((card) => (
+        {(
+          [
+            { label: '전체 글', value: totalPosts, icon: NotebookPen },
+            { label: '발행된 글', value: publishedPosts, icon: CheckCircle },
+            { label: '총 조회수', value: totalViews.toLocaleString(), icon: Eye },
+          ] as { label: string; value: number | string; icon: LucideIcon }[]
+        ).map((card) => (
           <div
             key={card.label}
             className="bg-zinc-900/60 border border-zinc-800/60 rounded-xl p-6"
           >
-            {/* @ts-expect-error iconify */}
-            <iconify-icon icon={card.icon} width="22" class="text-emerald-400 mb-3 block" />
+            <card.icon size={22} className="text-emerald-400 mb-3" />
             <p className="text-3xl font-bold text-zinc-100">{card.value}</p>
             <p className="text-sm text-zinc-500 mt-1">{card.label}</p>
           </div>
@@ -120,3 +122,5 @@ export default function DashboardPage() {
     </div>
   )
 }
+
+export default DashboardPage

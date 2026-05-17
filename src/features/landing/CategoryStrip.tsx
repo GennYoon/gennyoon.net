@@ -1,3 +1,4 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 import ScrollReveal from '@/components/blog/ScrollReveal'
 import type { Category } from './types'
@@ -6,7 +7,7 @@ interface Props {
   categories: Category[]
 }
 
-export function CategoryStrip({ categories }: Props) {
+export const CategoryStrip: React.FC<Props> = ({ categories }) => {
   if (categories.length === 0) return null
   return (
     <ScrollReveal>
@@ -23,17 +24,7 @@ export function CategoryStrip({ categories }: Props) {
                 to={`/category/${cat.slug}`}
                 className="group flex items-center gap-2 px-4 py-2.5 rounded-full border border-zinc-800/80 bg-zinc-900/40 hover:border-emerald-500/30 hover:bg-emerald-500/5 text-zinc-400 hover:text-emerald-400 text-sm font-medium transition-all duration-500"
               >
-                <span
-                  className="w-1.5 h-1.5 rounded-full shrink-0"
-                  style={{ background: cat.color || '#10b981' }}
-                />
                 <span>{cat.name}</span>
-                {/* @ts-expect-error iconify */}
-                <iconify-icon
-                  icon="solar:arrow-right-up-linear"
-                  width="12"
-                  class="opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-300"
-                />
               </Link>
             ))}
           </div>

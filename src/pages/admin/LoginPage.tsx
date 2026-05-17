@@ -1,15 +1,15 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabase/client'
 
-export default function LoginPage() {
+const LoginPage: React.FC = () => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  async function handleLogin(e: React.FormEvent) {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
@@ -26,6 +26,7 @@ export default function LoginPage() {
   }
 
   return (
+
     <div className="min-h-screen flex items-center justify-center bg-zinc-950 noise">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
@@ -79,3 +80,5 @@ export default function LoginPage() {
     </div>
   )
 }
+
+export default LoginPage

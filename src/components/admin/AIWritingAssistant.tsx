@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import { glmStream, glmText, GLM_MODELS } from '@/lib/glm'
 import { X, Upload, Loader2 } from 'lucide-react'
@@ -31,7 +31,7 @@ const DEFAULT_SYSTEM_PROMPT = `당신은 전직 CTO이자 AI 노마드인 GennYo
 - description: [100자 이내]
 - 태그: [tag1, tag2, tag3, tag4, tag5]`
 
-export default function AIWritingAssistant({ onGenerated, categories }: Props) {
+const AIWritingAssistant: React.FC<Props> = ({ onGenerated, categories }) => {
   const [rawInput, setRawInput] = useState('')
   const [images, setImages] = useState<string[]>([])
   const [selectedCategory, setSelectedCategory] = useState('')
@@ -312,3 +312,5 @@ export default function AIWritingAssistant({ onGenerated, categories }: Props) {
     </div>
   )
 }
+
+export default AIWritingAssistant

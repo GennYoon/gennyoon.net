@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
+import { ArrowLeft, ArrowRight, Eye } from 'lucide-react'
+import { marked } from 'marked'
 import { supabase } from '@/lib/supabase/client'
 import { formatDate } from '@/lib/utils'
 import ViewCounter from '@/components/blog/ViewCounter'
@@ -9,6 +11,7 @@ interface Post {
   title: string
   slug: string
   content?: string | null
+  content_markdown?: string | null
   seo_title?: string | null
   seo_description?: string | null
   cover_image?: string | null
@@ -17,7 +20,7 @@ interface Post {
   categories?: unknown
 }
 
-export default function BlogPostPage() {
+const BlogPostPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>()
   const [post, setPost] = useState<Post | null>(null)
   const [loading, setLoading] = useState(true)
@@ -52,11 +55,35 @@ export default function BlogPostPage() {
 
   return (
     <>
-      <title>{post.seo_title || post.title} | gennyoon.net</title>
-      {post.seo_description && <meta name="description" content={post.seo_description} />}
-      <meta property="og:title" content={post.seo_title || post.title} />
-      {post.seo_description && <meta property="og:description" content={post.seo_description} />}
+      <title>{(post.seo_title || post.title) + " | GennYoon Blog"}</title>
+      <meta name="description" content={post.seo_description || ""} />
       <meta property="og:type" content="article" />
+      <meta property="og:title" content={post.seo_title || post.title} />
+      <meta property="og:description" content={post.seo_description || ""} />
+      <meta property="og:url" content={`https://gennyoon.net/blog/${post.slug}`} />
+      {post.cover_image && <meta property="og:image" content={post.cover_image} />}
+      <meta property="og:site_name" content="GennYoon Blog" />
+      {post.published_at && <meta property="article:published_time" content={post.published_at} />}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={post.seo_title || post.title} />
+      <meta name="twitter:description" content={post.seo_description || ""} />
+      {post.cover_image && <meta name="twitter:image" content={post.cover_image} />}
+      <link rel="canonical" href={`https://gennyoon.net/blog/${post.slug}`} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.seo_title || post.title,
+            description: post.seo_description || "",
+            image: post.cover_image || "",
+            datePublished: post.published_at || "",
+            author: { "@type": "Person", name: "GennYoon" },
+            publisher: { "@type": "Organization", name: "GennYoon Blog", url: "https://gennyoon.net" },
+          }),
+        }}
+      />
 
       <article className="min-h-[100dvh] pt-32 pb-24">
         <ViewCounter slug={post.slug} />
@@ -66,8 +93,7 @@ export default function BlogPostPage() {
             to="/"
             className="group inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-300 text-sm mb-12 transition-colors duration-300"
           >
-            {/* @ts-expect-error iconify */}
-            <iconify-icon icon="solar:arrow-left-linear" width="16" class="group-hover:-translate-x-0.5 transition-transform duration-300" />
+            <ArrowLeft size={16} className="group-hover:-translate-x-0.5 transition-transform duration-300" />
             모든 글
           </Link>
 
@@ -78,10 +104,6 @@ export default function BlogPostPage() {
                 to={`/category/${cat.slug}`}
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-800/60 border border-zinc-700/40 hover:border-emerald-500/30 hover:text-emerald-400 text-zinc-400 text-xs font-medium mb-6 transition-all duration-300"
               >
-                <span
-                  className="w-1.5 h-1.5 rounded-full shrink-0"
-                  style={{ background: cat.color || '#10b981' }}
-                />
                 <span>{cat.name}</span>
               </Link>
             )}
@@ -107,8 +129,7 @@ export default function BlogPostPage() {
                 <time className="text-zinc-600">{formatDate(post.published_at)}</time>
               )}
               <div className="flex items-center gap-1.5 text-zinc-600">
-                {/* @ts-expect-error iconify */}
-                <iconify-icon icon="solar:eye-linear" width="14" />
+                <Eye size={14} />
                 <span>{post.view_count?.toLocaleString() ?? 0}</span>
               </div>
             </div>
@@ -128,7 +149,7 @@ export default function BlogPostPage() {
           {/* Content */}
           <div
             className="prose-gennyoon"
-            dangerouslySetInnerHTML={{ __html: post.content || '' }}
+            dangerouslySetInnerHTML={{ __html: post.content || marked(post.content_markdown || '') as string }}
           />
 
           {/* Bottom navigation */}
@@ -137,8 +158,7 @@ export default function BlogPostPage() {
               to="/"
               className="group flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors duration-300"
             >
-              {/* @ts-expect-error iconify */}
-              <iconify-icon icon="solar:arrow-left-linear" width="14" class="group-hover:-translate-x-0.5 transition-transform duration-300" />
+              <ArrowLeft size={14} className="group-hover:-translate-x-0.5 transition-transform duration-300" />
               목록으로
             </Link>
             {cat && (
@@ -147,8 +167,7 @@ export default function BlogPostPage() {
                 className="group flex items-center gap-2 text-zinc-500 hover:text-emerald-400 text-sm transition-colors duration-300"
               >
                 {cat.name} 더 보기
-                {/* @ts-expect-error iconify */}
-                <iconify-icon icon="solar:arrow-right-linear" width="14" class="group-hover:translate-x-0.5 transition-transform duration-300" />
+                <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform duration-300" />
               </Link>
             )}
           </div>
@@ -157,3 +176,5 @@ export default function BlogPostPage() {
     </>
   )
 }
+
+export default BlogPostPage

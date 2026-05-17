@@ -1,6 +1,7 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 
-export default function NotFoundPage() {
+const NotFoundPage: React.FC = () => {
   return (
     <div className="min-h-[100dvh] bg-zinc-950 flex flex-col items-center justify-center text-center px-6">
       <div className="text-8xl mb-8 opacity-20">404</div>
@@ -15,3 +16,5 @@ export default function NotFoundPage() {
     </div>
   )
 }
+
+export default NotFoundPage

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import { slugifyKo } from '@/lib/utils'
 import { Loader2, Trash2, Plus } from 'lucide-react'
@@ -16,7 +16,12 @@ const EMPTY: Omit<Category, 'id'> = { name: '', slug: '', emoji: '📝', color: 
 const inputCls = 'w-full px-3 py-2 text-sm border border-zinc-700/60 rounded-lg bg-zinc-800/60 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-colors'
 const labelCls = 'block text-xs font-medium text-zinc-500 mb-1'
 
-export default function CategoriesEditor({ categories: initial }: { categories: Category[] }) {
+interface Props {
+  categories: Category[]
+}
+
+const CategoriesEditor: React.FC<Props> = ({ categories: initial }) => {
+
   const [categories, setCategories] = useState<Category[]>(initial)
   const [form, setForm] = useState<Omit<Category, 'id'>>(EMPTY)
   const [saving, setSaving] = useState(false)
@@ -175,3 +180,5 @@ export default function CategoriesEditor({ categories: initial }: { categories: 
     </div>
   )
 }
+
+export default CategoriesEditor

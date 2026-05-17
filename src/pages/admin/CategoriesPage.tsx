@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import CategoriesEditor from '@/components/admin/CategoriesEditor'
 
@@ -10,7 +10,7 @@ interface Category {
   color: string
 }
 
-export default function CategoriesPage() {
+const CategoriesPage: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([])
 
   useEffect(() => {
@@ -30,3 +30,5 @@ export default function CategoriesPage() {
     </div>
   )
 }
+
+export default CategoriesPage

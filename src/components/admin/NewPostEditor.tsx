@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { marked } from 'marked'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -39,7 +39,7 @@ interface Props {
   }
 }
 
-export default function NewPostEditor({ categories, post }: Props) {
+const NewPostEditor: React.FC<Props> = ({ categories, post }) => {
   const navigate = useNavigate()
   const [title, setTitle] = useState(post?.title || '')
   const [slug, setSlug] = useState(post?.slug || '')
@@ -418,3 +418,5 @@ export default function NewPostEditor({ categories, post }: Props) {
     </div>
   )
 }
+
+export default NewPostEditor

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabase/client'
 import NewPostEditor from '@/components/admin/NewPostEditor'
@@ -24,7 +24,7 @@ interface Post {
   published_at: string | null
 }
 
-export default function EditPostPage() {
+const EditPostPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const [post, setPost] = useState<Post | null>(null)
   const [categories, setCategories] = useState<Category[]>([])
@@ -77,3 +77,5 @@ export default function EditPostPage() {
     </div>
   )
 }
+
+export default EditPostPage

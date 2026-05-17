@@ -1,33 +1,32 @@
+import React, { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import PublicLayout from '@/layouts/PublicLayout'
 import AdminLayout from '@/layouts/AdminLayout'
 import LandingPage from '@/pages/LandingPage'
-import BlogPostPage from '@/pages/BlogPostPage'
-import CategoryPage from '@/pages/CategoryPage'
-import NotFoundPage from '@/pages/NotFoundPage'
-import LoginPage from '@/pages/admin/LoginPage'
-import DashboardPage from '@/pages/admin/DashboardPage'
-import PostsListPage from '@/pages/admin/PostsListPage'
-import NewPostPage from '@/pages/admin/NewPostPage'
-import EditPostPage from '@/pages/admin/EditPostPage'
-import CategoriesPage from '@/pages/admin/CategoriesPage'
-import PromptsPage from '@/pages/admin/PromptsPage'
 
-export default function App() {
-  return (
-    <BrowserRouter>
+const BlogPostPage = lazy(() => import('@/pages/BlogPostPage'))
+const CategoryPage = lazy(() => import('@/pages/CategoryPage'))
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
+const LoginPage = lazy(() => import('@/pages/admin/LoginPage'))
+const DashboardPage = lazy(() => import('@/pages/admin/DashboardPage'))
+const PostsListPage = lazy(() => import('@/pages/admin/PostsListPage'))
+const NewPostPage = lazy(() => import('@/pages/admin/NewPostPage'))
+const EditPostPage = lazy(() => import('@/pages/admin/EditPostPage'))
+const CategoriesPage = lazy(() => import('@/pages/admin/CategoriesPage'))
+const PromptsPage = lazy(() => import('@/pages/admin/PromptsPage'))
+
+const App: React.FC = () => (
+  <BrowserRouter>
+    <Suspense fallback={null}>
       <Routes>
-        {/* Public */}
         <Route element={<PublicLayout />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/category/:slug" element={<CategoryPage />} />
         </Route>
 
-        {/* Auth */}
         <Route path="/admin/login" element={<LoginPage />} />
 
-        {/* Admin (protected) */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DashboardPage />} />
           <Route path="posts" element={<PostsListPage />} />
@@ -39,6 +38,8 @@ export default function App() {
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </BrowserRouter>
-  )
-}
+    </Suspense>
+  </BrowserRouter>
+)
+
+export default App

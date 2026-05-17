@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 html, body {
-  min-width: 500px;
   background-color: #09090b;
   color: #fafafa;
 }

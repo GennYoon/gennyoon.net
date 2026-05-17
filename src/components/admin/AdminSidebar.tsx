@@ -1,19 +1,24 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { BarChart2, NotebookPen, PenLine, Tag, Cpu, ArrowLeft, Menu, X, type LucideIcon } from 'lucide-react'
 
-const NAV_ITEMS = [
-  { href: '/admin', label: '대시보드', icon: 'solar:chart-2-bold' },
-  { href: '/admin/posts', label: '글 목록', icon: 'solar:notebook-bold' },
-  { href: '/admin/posts/new', label: '새 글 작성', icon: 'solar:pen-bold' },
-  { href: '/admin/categories', label: '카테고리', icon: 'solar:tag-bold' },
-  { href: '/admin/prompts', label: 'AI 프롬프트', icon: 'solar:cpu-bolt-bold' },
+const NAV_ITEMS: { href: string; label: string; icon: LucideIcon }[] = [
+  { href: '/admin', label: '대시보드', icon: BarChart2 },
+  { href: '/admin/posts', label: '글 목록', icon: NotebookPen },
+  { href: '/admin/posts/new', label: '새 글 작성', icon: PenLine },
+  { href: '/admin/categories', label: '카테고리', icon: Tag },
+  { href: '/admin/prompts', label: 'AI 프롬프트', icon: Cpu },
 ]
 
-export default function AdminSidebar({ children }: { children: React.ReactNode }) {
+interface Props {
+  children: React.ReactNode
+}
+
+const AdminSidebar: React.FC<Props> = ({ children }) => {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
 
-  const NavLinks = ({ onClick }: { onClick?: () => void }) => (
+  const NavLinks: React.FC<{ onClick?: () => void }> = ({ onClick }) => (
     <>
       {NAV_ITEMS.map((item) => (
         <Link
@@ -26,8 +31,7 @@ export default function AdminSidebar({ children }: { children: React.ReactNode }
               : 'text-zinc-500 hover:bg-zinc-800/60 hover:text-zinc-200'
           }`}
         >
-          {/* @ts-expect-error iconify */}
-          <iconify-icon icon={item.icon} width="15" />
+          <item.icon size={15} />
           <span>{item.label}</span>
         </Link>
       ))}
@@ -59,8 +63,7 @@ export default function AdminSidebar({ children }: { children: React.ReactNode }
             to="/"
             className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-zinc-600 hover:text-zinc-400 transition-colors"
           >
-            {/* @ts-expect-error iconify */}
-            <iconify-icon icon="solar:arrow-left-linear" width="13" />
+            <ArrowLeft size={13} />
             블로그로 돌아가기
           </Link>
         </div>
@@ -78,8 +81,7 @@ export default function AdminSidebar({ children }: { children: React.ReactNode }
           onClick={() => setOpen(true)}
           className="w-8 h-8 flex items-center justify-center rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors"
         >
-          {/* @ts-expect-error iconify */}
-          <iconify-icon icon="solar:hamburger-menu-linear" width="18" />
+          <Menu size={18} />
         </button>
       </div>
 
@@ -99,8 +101,7 @@ export default function AdminSidebar({ children }: { children: React.ReactNode }
                 onClick={() => setOpen(false)}
                 className="w-7 h-7 flex items-center justify-center rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800 transition-colors"
               >
-                {/* @ts-expect-error iconify */}
-                <iconify-icon icon="solar:close-linear" width="16" />
+                <X size={16} />
               </button>
             </div>
             <nav className="p-3 space-y-0.5 flex-1">
@@ -125,3 +126,5 @@ export default function AdminSidebar({ children }: { children: React.ReactNode }
     </div>
   )
 }
+
+export default AdminSidebar

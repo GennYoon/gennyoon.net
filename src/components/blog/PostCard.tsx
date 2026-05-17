@@ -1,3 +1,4 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { formatDate } from '@/lib/utils'
 
@@ -13,7 +14,12 @@ type Post = {
   categories?: any
 }
 
-export default function PostCard({ post, large }: { post: Post; large?: boolean }) {
+interface Props {
+  post: Post
+  large?: boolean
+}
+
+const PostCard: React.FC<Props> = ({ post, large }) => {
   const cat = post.categories as { name: string; slug: string; emoji: string } | null
 
   return (
@@ -42,10 +48,6 @@ export default function PostCard({ post, large }: { post: Post; large?: boolean 
           <div className="flex flex-col flex-1 p-5">
             {cat && (
               <div className="flex items-center gap-2 mb-3">
-                <span
-                  className="w-1.5 h-1.5 rounded-full shrink-0"
-                  style={{ background: '#10b981' }}
-                />
                 <span className="text-zinc-500 text-xs font-medium">{cat.name}</span>
               </div>
             )}
@@ -71,3 +73,5 @@ export default function PostCard({ post, large }: { post: Post; large?: boolean 
     </Link>
   )
 }
+
+export default PostCard

@@ -1,8 +1,9 @@
+import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import AdminSidebar from '@/components/admin/AdminSidebar'
 
-export default function AdminLayout() {
+const AdminLayout: React.FC = () => {
   const { session, loading } = useAuth()
 
   if (loading) {
@@ -23,3 +24,5 @@ export default function AdminLayout() {
     </AdminSidebar>
   )
 }
+
+export default AdminLayout

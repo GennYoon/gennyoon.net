@@ -1,4 +1,6 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
 import ScrollReveal from '@/components/blog/ScrollReveal'
 import { formatDate } from '@/lib/utils'
 import type { Post } from './types'
@@ -7,7 +9,7 @@ interface Props {
   post: Post
 }
 
-export function FeaturedPost({ post }: Props) {
+export const FeaturedPost: React.FC<Props> = ({ post }) => {
   const cat = post.categories as { name: string; slug: string; emoji: string } | null
   return (
     <ScrollReveal>
@@ -47,10 +49,6 @@ export function FeaturedPost({ post }: Props) {
                     <div>
                       {cat && (
                         <div className="flex items-center gap-2 mb-6">
-                          <span
-                            className="w-1.5 h-1.5 rounded-full shrink-0"
-                            style={{ background: '#10b981' }}
-                          />
                           <span className="text-zinc-500 text-xs font-medium">{cat.name}</span>
                         </div>
                       )}
@@ -69,8 +67,7 @@ export function FeaturedPost({ post }: Props) {
                       </div>
                       <div className="flex items-center gap-2 text-emerald-400 text-sm font-medium group-hover:gap-3 transition-all duration-300">
                         읽기
-                        {/* @ts-expect-error iconify */}
-                        <iconify-icon icon="solar:arrow-right-linear" width="16" />
+                        <ArrowRight size={16} />
                       </div>
                     </div>
                   </div>

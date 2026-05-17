@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import { Hero } from '@/features/landing/Hero'
 import { CategoryStrip } from '@/features/landing/CategoryStrip'
@@ -6,7 +6,7 @@ import { FeaturedPost } from '@/features/landing/FeaturedPost'
 import { PostsGrid } from '@/features/landing/PostsGrid'
 import type { Post, Category } from '@/features/landing/types'
 
-export default function LandingPage() {
+const LandingPage: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([])
   const [categories, setCategories] = useState<Category[]>([])
 
@@ -35,11 +35,8 @@ export default function LandingPage() {
 
   return (
     <>
-      <title>gennyoon.net</title>
-      <meta
-        name="description"
-        content="노마드 코더 GennYoon의 AI 개발 블로그. AI로 만들고, 배우고, 기록합니다."
-      />
+      <title>GennYoon Blog</title>
+      <meta name="description" content="노마드 코더 GennYoon의 AI 개발 블로그. AI로 만들고, 배우고, 기록합니다." />
 
       <div className="min-h-[100dvh]">
         <Hero posts={posts} categories={categories} />
@@ -50,3 +47,5 @@ export default function LandingPage() {
     </>
   )
 }
+
+export default LandingPage

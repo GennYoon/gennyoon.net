@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import PromptsEditor from '@/components/admin/PromptsEditor'
 
@@ -16,7 +16,7 @@ interface Category {
   emoji: string
 }
 
-export default function PromptsPage() {
+const PromptsPage: React.FC = () => {
   const [prompts, setPrompts] = useState<Prompt[]>([])
   const [categories, setCategories] = useState<Category[]>([])
 
@@ -40,3 +40,5 @@ export default function PromptsPage() {
     </div>
   )
 }
+
+export default PromptsPage

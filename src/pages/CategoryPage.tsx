@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
+import { ArrowLeft } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
 import PostCard from '@/components/blog/PostCard'
 
@@ -21,7 +22,7 @@ interface Post {
   categories?: unknown
 }
 
-export default function CategoryPage() {
+const CategoryPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>()
   const [category, setCategory] = useState<Category | null>(null)
   const [allCategories, setAllCategories] = useState<{ name: string; slug: string; emoji: string }[]>([])
@@ -70,8 +71,13 @@ export default function CategoryPage() {
 
   return (
     <>
-      <title>{category.name} | gennyoon.net</title>
-      <meta name="description" content={`GennYoon의 ${category.name} 관련 글 모음`} />
+      <title>{`${category.name} | GennYoon Blog`}</title>
+      <meta name="description" content={`GennYoon 블로그의 ${category.name} 카테고리 글 모음입니다.`} />
+      <meta property="og:title" content={`${category.name} | GennYoon Blog`} />
+      <meta property="og:description" content={`GennYoon 블로그의 ${category.name} 카테고리 글 모음입니다.`} />
+      <meta property="og:url" content={`https://gennyoon.net/category/${category.slug}`} />
+      <meta property="og:type" content="website" />
+      <link rel="canonical" href={`https://gennyoon.net/category/${category.slug}`} />
 
       <div className="min-h-[100dvh] pt-32 pb-24">
         <div className="max-w-6xl mx-auto px-6">
@@ -82,18 +88,13 @@ export default function CategoryPage() {
               to="/"
               className="group inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-400 text-sm mb-10 transition-colors duration-300"
             >
-              {/* @ts-expect-error iconify */}
-              <iconify-icon icon="solar:arrow-left-linear" width="14" class="group-hover:-translate-x-0.5 transition-transform duration-300" />
+              <ArrowLeft size={14} className="group-hover:-translate-x-0.5 transition-transform duration-300" />
               홈으로
             </Link>
 
             <div className="flex items-end justify-between gap-6">
               <div>
                 <div className="flex items-center gap-3 mb-3">
-                  <span
-                    className="w-2 h-2 rounded-full shrink-0"
-                    style={{ background: category.color || '#10b981' }}
-                  />
                   <span className="text-zinc-500 text-xs uppercase tracking-widest">Category</span>
                 </div>
                 <h1 className="text-4xl md:text-5xl font-bold text-zinc-50 keep-all">
@@ -147,3 +148,5 @@ export default function CategoryPage() {
     </>
   )
 }
+
+export default CategoryPage

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import { Loader2, ExternalLink, Check } from 'lucide-react'
 
@@ -12,7 +12,7 @@ interface Props {
   postStatus: string
 }
 
-export default function CrossPostPanel({ postId, postStatus }: Props) {
+const CrossPostPanel: React.FC<Props> = ({ postId, postStatus }) => {
   const [crossPosts, setCrossPosts] = useState<CrossPost[]>([])
   const [loading, setLoading] = useState<Record<string, boolean>>({})
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -127,3 +127,5 @@ export default function CrossPostPanel({ postId, postStatus }: Props) {
     </div>
   )
 }
+
+export default CrossPostPanel

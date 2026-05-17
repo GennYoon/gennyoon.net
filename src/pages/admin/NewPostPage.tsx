@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase/client'
 import NewPostEditor from '@/components/admin/NewPostEditor'
@@ -10,7 +10,7 @@ interface Category {
   emoji: string
 }
 
-export default function NewPostPage() {
+const NewPostPage: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([])
 
   useEffect(() => {
@@ -34,3 +34,5 @@ export default function NewPostPage() {
     </div>
   )
 }
+
+export default NewPostPage

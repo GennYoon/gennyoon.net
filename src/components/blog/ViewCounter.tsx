@@ -1,10 +1,14 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { supabase } from '@/lib/supabase/client'
 
 const STORAGE_KEY = 'viewed_posts'
 const COOLDOWN_MS = 24 * 60 * 60 * 1000
 
-export default function ViewCounter({ slug }: { slug: string }) {
+interface Props {
+  slug: string
+}
+
+const ViewCounter: React.FC<Props> = ({ slug }) => {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
@@ -28,3 +32,5 @@ export default function ViewCounter({ slug }: { slug: string }) {
 
   return null
 }
+
+export default ViewCounter

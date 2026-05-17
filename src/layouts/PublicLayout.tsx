@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, Outlet } from 'react-router-dom'
+import { NotebookPen } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
 import NavClient from '@/components/blog/NavClient'
 
@@ -9,7 +10,7 @@ interface Category {
   emoji: string
 }
 
-export default function PublicLayout() {
+const PublicLayout: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([])
 
   useEffect(() => {
@@ -44,8 +45,7 @@ export default function PublicLayout() {
               to="/blog"
               className="text-zinc-600 hover:text-emerald-400 transition-colors duration-300"
             >
-              {/* @ts-expect-error iconify */}
-              <iconify-icon icon="solar:notebook-bold" width="16" />
+              <NotebookPen size={16} />
             </Link>
             <Link
               to="/admin"
@@ -59,3 +59,5 @@ export default function PublicLayout() {
     </div>
   )
 }
+
+export default PublicLayout
