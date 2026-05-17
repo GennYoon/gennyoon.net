@@ -1,0 +1,22 @@
+import { format } from 'date-fns'
+import { ko } from 'date-fns/locale'
+import { clsx, type ClassValue } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+
+export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs))
+
+export const formatDate = (date: string | Date) =>
+  format(new Date(date), 'yyyy년 M월 d일', { locale: ko })
+
+export const slugifyKo = (text: string): string => {
+  return text
+    .toLowerCase()
+    .replace(/[가-힣]/g, (char) => {
+      // 한글은 그대로 유지하고 romanize 라이브러리 없이 간단 처리
+      return char
+    })
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9가-힣ㄱ-ㅎ-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+}
