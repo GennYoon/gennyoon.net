@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase/client'
-import { Loader2, ExternalLink, Check, Link2 } from 'lucide-react'
+import { Loader2, ExternalLink, Check, Link2, Trash2 } from 'lucide-react'
 
 interface CrossPost {
   platform: string
@@ -55,6 +55,16 @@ const CrossPostPanel: React.FC<Props> = ({ postId, postStatus }) => {
     { key: 'linkedin', label: 'LinkedIn', desc: '한국어', fn: 'crosspost-linkedin' },
   ]
 
+  async function handleDisconnect() {
+    await supabase.from('linkedin_tokens').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+    setLinkedinConnected(false)
+  }
+
+  async function handleDeleteCrossPost(platform: string) {
+    await supabase.from('cross_posts').delete().eq('post_id', postId).eq('platform', platform)
+    setCrossPosts((prev) => prev.filter((cp) => cp.platform !== platform))
+  }
+
   async function handlePost(platform: string, fnName: string) {
     setLoading((prev) => ({ ...prev, [platform]: true }))
     setErrors((prev) => ({ ...prev, [platform]: '' }))
@@ -107,10 +117,18 @@ const CrossPostPanel: React.FC<Props> = ({ postId, postStatus }) => {
           </a>
         )}
         {linkedinConnected === true && (
-          <span className="text-[10px] text-zinc-600 flex items-center gap-1">
-            <Check className="w-3 h-3 text-emerald-500" />
-            연동됨
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] text-zinc-600 flex items-center gap-1">
+              <Check className="w-3 h-3 text-emerald-500" />
+              연동됨
+            </span>
+            <button
+              onClick={handleDisconnect}
+              className="text-[10px] text-zinc-600 hover:text-red-400 transition-colors"
+            >
+              해제
+            </button>
+          </div>
         )}
       </div>
 
@@ -140,16 +158,25 @@ const CrossPostPanel: React.FC<Props> = ({ postId, postStatus }) => {
               <div className="flex items-center gap-2">
                 {error && <span className="text-xs text-red-400">{error}</span>}
                 {posted ? (
-                  <a
-                    href={posted.external_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
-                  >
-                    <Check className="w-3.5 h-3.5" />
-                    완료
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={posted.external_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
+                    >
+                      <Check className="w-3.5 h-3.5" />
+                      완료
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                    <button
+                      onClick={() => handleDeleteCrossPost(key)}
+                      className="text-zinc-600 hover:text-red-400 transition-colors"
+                      title="크로스포스트 기록 삭제"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 ) : (
                   <button
                     onClick={() => handlePost(key, fn)}
