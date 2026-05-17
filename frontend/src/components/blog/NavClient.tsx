@@ -46,14 +46,16 @@ const NavClient: React.FC<Props> = ({ categories }) => {
           }`}
         >
           {/* Logo */}
-          <Link to="/" onClick={handleLogoClick} className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-zinc-800/60 transition-all duration-300 mr-1">
-            <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
-              <span className="text-emerald-400 text-[10px] font-bold">G</span>
-            </div>
-            <span className="text-zinc-200 text-sm font-semibold tracking-tight hidden sm:block">
-              GennYoon
-            </span>
-          </Link>
+          <Button asChild variant="ghost" className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-zinc-800/60 mr-1 h-auto">
+            <Link to="/" onClick={handleLogoClick}>
+              <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
+                <span className="text-emerald-400 text-[10px] font-bold">G</span>
+              </div>
+              <span className="text-zinc-200 text-sm font-semibold tracking-tight hidden sm:block">
+                GennYoon
+              </span>
+            </Link>
+          </Button>
 
           <div className="w-px h-4 bg-zinc-700/60 mx-1" />
 
