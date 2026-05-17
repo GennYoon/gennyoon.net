@@ -13,7 +13,6 @@ interface Prompt {
 interface Category {
   slug: string
   name: string
-  emoji: string
 }
 
 interface Props {
@@ -124,9 +123,6 @@ const PromptsEditor: React.FC<Props> = ({ prompts: initial, categories }) => {
                     : 'text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200 border border-transparent'
                 }`}
               >
-                <span className="mr-1.5">
-                  {categories.find((c) => c.slug === p.category_slug)?.emoji ?? '📝'}
-                </span>
                 {p.category_name}
               </button>
             ))}
@@ -160,7 +156,7 @@ const PromptsEditor: React.FC<Props> = ({ prompts: initial, categories }) => {
                 <option value="">선택해주세요</option>
                 {unusedCategories.map((c) => (
                   <option key={c.slug} value={c.slug}>
-                    {c.emoji} {c.name}
+                    {c.name}
                   </option>
                 ))}
               </select>
@@ -186,9 +182,6 @@ const PromptsEditor: React.FC<Props> = ({ prompts: initial, categories }) => {
           <>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-lg">
-                  {categories.find((c) => c.slug === selected.category_slug)?.emoji ?? '📝'}
-                </span>
                 <h2 className="text-base font-semibold text-zinc-100">{selected.category_name}</h2>
                 <span className="text-xs text-zinc-600">
                   최종 수정: {new Date(selected.updated_at).toLocaleDateString('ko-KR')}

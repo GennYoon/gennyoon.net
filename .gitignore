@@ -12,3 +12,4 @@ frontend/.env.*.local
 supabase/.branches/
 supabase/.temp/
 supabase/functions/.env
+.vercel

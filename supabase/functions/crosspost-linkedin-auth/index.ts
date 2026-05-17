@@ -60,7 +60,7 @@ serve(async (req) => {
   const supabase = createClient(
     Deno.env.get('SUPABASE_URL')!,
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
-    { db: { schema: 'gennyoon' } }
+    { db: { schema: 'public' } }
   )
 
   await supabase.from('linkedin_tokens').upsert({

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import { Hero } from '@/features/landing/Hero'
-import { CategoryStrip } from '@/features/landing/CategoryStrip'
 import { FeaturedPost } from '@/features/landing/FeaturedPost'
 import { PostsGrid } from '@/features/landing/PostsGrid'
 import type { Post, Category } from '@/features/landing/types'
@@ -40,8 +39,7 @@ const LandingPage: React.FC = () => {
 
       <div className="min-h-[100dvh]">
         <Hero posts={posts} categories={categories} />
-        <CategoryStrip categories={categories} />
-        {featuredPost && <FeaturedPost post={featuredPost} />}
+{featuredPost && <FeaturedPost post={featuredPost} />}
         <PostsGrid posts={recentPosts} />
       </div>
     </>

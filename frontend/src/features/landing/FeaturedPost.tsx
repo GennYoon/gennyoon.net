@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import ScrollReveal from '@/components/blog/ScrollReveal'
+import { Button } from '@/components/ui/button'
 import { formatDate } from '@/lib/utils'
 import type { Post } from './types'
 
@@ -26,7 +27,8 @@ export const FeaturedPost: React.FC<Props> = ({ post }) => {
             </div>
           </div>
 
-          <Link to={`/blog/${post.slug}`} className="group block">
+          <Button asChild variant="ghost" className="group block p-0 h-auto hover:bg-transparent rounded-3xl">
+            <Link to={`/blog/${post.slug}`}>
             <div className="p-1.5 rounded-3xl bg-zinc-800/30 border border-zinc-700/40 hover:border-emerald-500/20 transition-all duration-500 hover:bg-zinc-800/40">
               <div className="rounded-[calc(1.5rem-0.375rem)] overflow-hidden bg-zinc-900/60 border border-zinc-800/40">
                 <div className="grid md:grid-cols-[1fr_auto] gap-0">
@@ -74,7 +76,8 @@ export const FeaturedPost: React.FC<Props> = ({ post }) => {
                 </div>
               </div>
             </div>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </section>
     </ScrollReveal>

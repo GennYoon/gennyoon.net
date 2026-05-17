@@ -18,7 +18,7 @@ serve(async (req) => {
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
-      { db: { schema: 'gennyoon' } }
+      { db: { schema: 'public' } }
     )
 
     const { data: post, error } = await supabase.from('posts').select('*').eq('id', postId).single()

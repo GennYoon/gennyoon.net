@@ -12,8 +12,6 @@ const DashboardPage = lazy(() => import('@/pages/admin/DashboardPage'))
 const PostsListPage = lazy(() => import('@/pages/admin/PostsListPage'))
 const NewPostPage = lazy(() => import('@/pages/admin/NewPostPage'))
 const EditPostPage = lazy(() => import('@/pages/admin/EditPostPage'))
-const CategoriesPage = lazy(() => import('@/pages/admin/CategoriesPage'))
-const PromptsPage = lazy(() => import('@/pages/admin/PromptsPage'))
 
 const App: React.FC = () => (
   <BrowserRouter>
@@ -32,8 +30,6 @@ const App: React.FC = () => (
           <Route path="posts" element={<PostsListPage />} />
           <Route path="posts/new" element={<NewPostPage />} />
           <Route path="posts/:id" element={<EditPostPage />} />
-          <Route path="categories" element={<CategoriesPage />} />
-          <Route path="prompts" element={<PromptsPage />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />

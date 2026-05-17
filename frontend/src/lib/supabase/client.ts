@@ -4,6 +4,6 @@ export const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
   import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
   {
-    db: { schema: import.meta.env.VITE_SUPABASE_SCHEMA || 'gennyoon' },
+    db: { schema: import.meta.env.VITE_SUPABASE_SCHEMA || 'public' },
   }
 )

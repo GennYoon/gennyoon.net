@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import ScrollReveal from '@/components/blog/ScrollReveal'
+import { Button } from '@/components/ui/button'
 import type { Category } from './types'
 
 interface Props {
@@ -19,13 +20,9 @@ export const CategoryStrip: React.FC<Props> = ({ categories }) => {
           </div>
           <div className="flex flex-wrap gap-3">
             {categories.map((cat) => (
-              <Link
-                key={cat.slug}
-                to={`/category/${cat.slug}`}
-                className="group flex items-center gap-2 px-4 py-2.5 rounded-full border border-zinc-800/80 bg-zinc-900/40 hover:border-emerald-500/30 hover:bg-emerald-500/5 text-zinc-400 hover:text-emerald-400 text-sm font-medium transition-all duration-500"
-              >
-                <span>{cat.name}</span>
-              </Link>
+              <Button key={cat.slug} asChild variant="ghost" className="h-auto px-4 py-2.5 rounded-full border border-zinc-800/80 bg-zinc-900/40 hover:border-emerald-500/30 hover:bg-emerald-500/5 text-zinc-400 hover:text-emerald-400 text-sm font-medium transition-all duration-500">
+                <Link to={`/category/${cat.slug}`}>{cat.name}</Link>
+              </Button>
             ))}
           </div>
         </div>

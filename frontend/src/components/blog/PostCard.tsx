@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { formatDate } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 type Post = {
   id: string
@@ -23,10 +24,8 @@ const PostCard: React.FC<Props> = ({ post, large }) => {
   const cat = post.categories as { name: string; slug: string; emoji: string } | null
 
   return (
-    <Link
-      to={`/blog/${post.slug}`}
-      className={`group block${large ? ' md:col-span-2' : ''}`}
-    >
+    <Button asChild variant="ghost" className={`group block p-0 h-auto hover:bg-transparent rounded-2xl${large ? ' md:col-span-2' : ''}`}>
+      <Link to={`/blog/${post.slug}`}>
       <div className="h-full p-1.5 rounded-2xl bg-zinc-800/30 border border-zinc-700/40 hover:border-emerald-500/20 transition-all duration-500 hover:bg-zinc-800/40">
         <div className="h-full rounded-[calc(1rem-0.375rem)] overflow-hidden bg-zinc-900/60 border border-zinc-800/40 flex flex-col">
           {/* Cover image */}
@@ -70,7 +69,8 @@ const PostCard: React.FC<Props> = ({ post, large }) => {
           </div>
         </div>
       </div>
-    </Link>
+      </Link>
+    </Button>
   )
 }
 

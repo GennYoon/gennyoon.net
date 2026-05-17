@@ -6,8 +6,6 @@ interface Category {
   id: string
   name: string
   slug: string
-  emoji: string
-  color: string
 }
 
 const CategoriesPage: React.FC = () => {
@@ -16,7 +14,7 @@ const CategoriesPage: React.FC = () => {
   useEffect(() => {
     supabase
       .from('categories')
-      .select('id, name, slug, emoji, color')
+      .select('id, name, slug')
       .order('name')
       .then(({ data }) => {
         if (data) setCategories(data)

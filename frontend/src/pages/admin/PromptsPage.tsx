@@ -13,7 +13,6 @@ interface Prompt {
 interface Category {
   slug: string
   name: string
-  emoji: string
 }
 
 const PromptsPage: React.FC = () => {
@@ -23,7 +22,7 @@ const PromptsPage: React.FC = () => {
   useEffect(() => {
     Promise.all([
       supabase.from('ai_prompts').select('*').order('category_name'),
-      supabase.from('categories').select('slug, name, emoji').order('name'),
+      supabase.from('categories').select('slug, name').order('name'),
     ]).then(([promptsRes, catsRes]) => {
       if (promptsRes.data) setPrompts(promptsRes.data)
       if (catsRes.data) setCategories(catsRes.data)
