@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { NotebookPen, ArrowDown, ArrowRight } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import type { Post, Category } from './types'
 
 const PRIMARY = '#10b981'
@@ -100,27 +101,27 @@ export const Hero: React.FC<Props> = ({ posts, categories }) => {
           </p>
 
           <div className="reveal flex items-center gap-3 justify-end flex-wrap" style={{ animationDelay: '250ms' }}>
-            <a
-              href="#posts"
-              className="group flex items-center gap-3 px-8 py-4 rounded-full font-semibold text-sm transition-all duration-500 hover:scale-[1.02] active:scale-[0.98]"
-              style={{ background: PRIMARY, color: '#09090b', boxShadow: `0 0 30px ${PRIMARY}33` }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = PRIMARY_HOVER }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = PRIMARY }}
+            <Button
+              asChild
+              className="group rounded-full px-8 py-4 h-auto bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-sm shadow-[0_0_30px_rgba(16,185,129,0.2)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-500"
             >
-              최근 글 보기
-              <span className="w-6 h-6 rounded-full flex items-center justify-center group-hover:translate-x-0.5 transition-transform" style={{ background: 'rgba(9,9,11,0.15)' }}>
-                <ArrowDown size={12} />
-              </span>
-            </a>
-            <Link
-              to="/category/nomad-life"
-              className="group flex items-center gap-2 px-6 py-4 border border-zinc-700/60 text-zinc-300 hover:text-zinc-100 rounded-full text-sm font-medium transition-all duration-500"
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${PRIMARY}66`; e.currentTarget.style.background = `${PRIMARY}0d` }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = ''; e.currentTarget.style.background = '' }}
+              <a href="#posts">
+                최근 글 보기
+                <span className="w-6 h-6 rounded-full flex items-center justify-center group-hover:translate-x-0.5 transition-transform bg-black/15">
+                  <ArrowDown size={12} />
+                </span>
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="group rounded-full px-6 py-4 h-auto border-zinc-700/60 bg-transparent text-zinc-300 hover:text-zinc-100 hover:border-emerald-500/40 hover:bg-emerald-500/5 text-sm font-medium transition-all duration-500"
             >
-              노마드 이야기
-              <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-            </Link>
+              <Link to="/category/nomad-life">
+                노마드 이야기
+                <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
