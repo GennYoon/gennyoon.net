@@ -1,4 +1,6 @@
-const BASE_URL = import.meta.env.DEV ? '/api/glm' : 'https://api.z.ai/api/anthropic/v1/messages'
+const BASE_URL = import.meta.env.DEV
+  ? '/api/glm'
+  : `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/glm-proxy`
 
 export const GLM_MODELS = {
   default: 'claude-3-5-haiku-20241022',
@@ -17,14 +19,15 @@ interface GLMOptions {
   maxTokens?: number
 }
 
+const getHeaders = () =>
+  import.meta.env.DEV
+    ? { 'x-api-key': import.meta.env.VITE_GLM_API_KEY, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' }
+    : { Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`, 'Content-Type': 'application/json' }
+
 export async function glmStream(options: GLMOptions): Promise<ReadableStream<Uint8Array>> {
   const res = await fetch(BASE_URL, {
     method: 'POST',
-    headers: {
-      'x-api-key': import.meta.env.VITE_GLM_API_KEY,
-      'anthropic-version': '2023-06-01',
-      'Content-Type': 'application/json',
-    },
+    headers: getHeaders(),
     body: JSON.stringify({
       model: options.model,
       system: options.system,
@@ -80,11 +83,7 @@ export async function glmStream(options: GLMOptions): Promise<ReadableStream<Uin
 export async function glmText(options: GLMOptions): Promise<string> {
   const res = await fetch(BASE_URL, {
     method: 'POST',
-    headers: {
-      'x-api-key': import.meta.env.VITE_GLM_API_KEY,
-      'anthropic-version': '2023-06-01',
-      'Content-Type': 'application/json',
-    },
+    headers: getHeaders(),
     body: JSON.stringify({
       model: options.model,
       system: options.system,
