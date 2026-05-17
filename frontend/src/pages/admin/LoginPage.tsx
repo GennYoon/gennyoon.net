@@ -32,9 +32,6 @@ const LoginPage: React.FC = () => {
       <div className="w-full max-w-sm">
         <form onSubmit={handleLogin} className="bg-zinc-900/60 rounded-2xl border border-zinc-800/60 p-8 space-y-6">
           <div className="text-center pb-2">
-            <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mx-auto mb-4">
-              <span className="text-emerald-400 text-lg font-bold">G</span>
-            </div>
             <h1 className="text-2xl font-bold text-zinc-50">GennYoon</h1>
             <p className="text-sm text-zinc-500 mt-1">Webchemist Corp 어드민</p>
           </div>
