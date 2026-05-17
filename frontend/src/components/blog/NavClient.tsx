@@ -75,7 +75,7 @@ const NavClient: React.FC<Props> = ({ categories }) => {
           </div>
 
           <div className="hidden md:flex items-center ml-1 shrink-0">
-            <Button asChild size="sm" className="rounded-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs">
+            <Button asChild size="xs" className="rounded-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold">
               <Link to="/admin">관리</Link>
             </Button>
           </div>
