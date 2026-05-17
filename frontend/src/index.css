@@ -10,6 +10,12 @@ html, body {
   --color-background: #09090b;
   --color-foreground: #fafafa;
   --color-accent: #10b981;
+
+  /* shadcn 호환 변수 */
+  --color-input: #3f3f46;
+  --color-border: #3f3f46;
+  --color-ring: #10b981;
+  --color-muted-foreground: #52525b;
 }
 
 /* Korean text */
