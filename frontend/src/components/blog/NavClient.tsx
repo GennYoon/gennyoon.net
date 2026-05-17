@@ -73,6 +73,15 @@ const NavClient: React.FC<Props> = ({ categories }) => {
             ))}
           </div>
 
+          <div className="hidden md:flex items-center ml-1 shrink-0">
+            <Link
+              to="/admin"
+              className="px-3 py-1.5 rounded-full bg-zinc-800/60 hover:bg-zinc-700/60 text-zinc-400 hover:text-zinc-200 text-xs font-medium whitespace-nowrap transition-all duration-300"
+            >
+              관리
+            </Link>
+          </div>
+
           {/* Mobile menu toggle */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}

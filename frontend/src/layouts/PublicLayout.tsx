@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Outlet } from 'react-router-dom'
-import { NotebookPen } from 'lucide-react'
+import { Outlet } from 'react-router-dom'
 import { supabase } from '@/lib/supabase/client'
 import NavClient from '@/components/blog/NavClient'
 
 interface Category {
   name: string
   slug: string
-  emoji: string
 }
 
 const PublicLayout: React.FC = () => {
@@ -16,7 +14,7 @@ const PublicLayout: React.FC = () => {
   useEffect(() => {
     supabase
       .from('categories')
-      .select('name, slug, emoji')
+      .select('name, slug')
       .order('name')
       .then(({ data }) => {
         if (data) setCategories(data)
@@ -30,29 +28,26 @@ const PublicLayout: React.FC = () => {
         <Outlet />
       </main>
       <footer className="border-t border-zinc-800/60 mt-32">
-        <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
-              <span className="text-emerald-400 text-xs font-bold">G</span>
+        <div className="max-w-6xl mx-auto px-6 py-12">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+                <span className="text-emerald-400 text-xs font-bold">G</span>
+              </div>
+              <span className="text-zinc-300 text-sm font-semibold">gennyoon.net</span>
             </div>
-            <span className="text-zinc-400 text-sm font-medium">gennyoon.net</span>
+            <p className="text-zinc-600 text-xs">
+              © 2024–{new Date().getFullYear()} Webchemist Corp. All rights reserved.
+            </p>
           </div>
-          <p className="text-zinc-600 text-xs">
-            노마드 코더 GennYoon의 AI 개발 기록 — {new Date().getFullYear()}
-          </p>
-          <div className="flex items-center gap-4">
-            <Link
-              to="/blog"
-              className="text-zinc-600 hover:text-emerald-400 transition-colors duration-300"
-            >
-              <NotebookPen size={16} />
-            </Link>
-            <Link
-              to="/admin"
-              className="text-zinc-700 hover:text-zinc-500 transition-colors duration-300 text-xs"
-            >
-              관리
-            </Link>
+          <div className="border-t border-zinc-800/40 pt-6 flex flex-col md:flex-row gap-1 text-[11px] text-zinc-600">
+            <span>대표자: 윤원열</span>
+            <span className="hidden md:inline mx-2">·</span>
+            <span>사업자등록번호: 722-86-03469</span>
+            <span className="hidden md:inline mx-2">·</span>
+            <span>경기도 안양시 동안구 평촌대로 212번길 14-8, 3층 316호</span>
+            <span className="hidden md:inline mx-2">·</span>
+            <a href="mailto:info@webchemist.net" className="hover:text-zinc-400 transition-colors">info@webchemist.net</a>
           </div>
         </div>
       </footer>

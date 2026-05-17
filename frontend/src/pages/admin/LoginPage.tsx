@@ -34,7 +34,7 @@ const LoginPage: React.FC = () => {
             <span className="text-emerald-400 text-lg font-bold">G</span>
           </div>
           <h1 className="text-2xl font-bold text-zinc-50">gennyoon.net</h1>
-          <p className="text-sm text-zinc-500 mt-1">어드민 로그인</p>
+          <p className="text-sm text-zinc-500 mt-1">Webchemist Corp 어드민</p>
         </div>
 
         <form onSubmit={handleLogin} className="bg-zinc-900/60 rounded-2xl border border-zinc-800/60 p-8 space-y-4">
@@ -52,7 +52,7 @@ const LoginPage: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full px-4 py-2.5 border border-zinc-700/60 rounded-lg bg-zinc-800/60 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-colors"
-              placeholder="admin@example.com"
+              placeholder="info@webchemist.net"
             />
           </div>
 

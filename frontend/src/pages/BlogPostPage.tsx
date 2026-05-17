@@ -27,6 +27,10 @@ const BlogPostPage: React.FC = () => {
   const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' })
+  }, [slug])
+
+  useEffect(() => {
     if (!slug) return
     supabase
       .from('posts')
