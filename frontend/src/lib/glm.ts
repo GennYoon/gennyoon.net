@@ -22,7 +22,7 @@ interface GLMOptions {
 const getHeaders = (): Record<string, string> =>
   import.meta.env.DEV
     ? { 'x-api-key': import.meta.env.VITE_GLM_API_KEY, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' }
-    : { Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`, 'Content-Type': 'application/json' }
+    : { 'Content-Type': 'application/json' }
 
 export async function glmStream(options: GLMOptions): Promise<ReadableStream<Uint8Array>> {
   const res = await fetch(BASE_URL, {
