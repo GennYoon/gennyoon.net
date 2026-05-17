@@ -19,7 +19,7 @@ interface GLMOptions {
   maxTokens?: number
 }
 
-const getHeaders = () =>
+const getHeaders = (): Record<string, string> =>
   import.meta.env.DEV
     ? { 'x-api-key': import.meta.env.VITE_GLM_API_KEY, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' }
     : { Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`, 'Content-Type': 'application/json' }
