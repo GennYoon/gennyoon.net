@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 interface Category {
   name: string
@@ -74,12 +75,9 @@ const NavClient: React.FC<Props> = ({ categories }) => {
           </div>
 
           <div className="hidden md:flex items-center ml-1 shrink-0">
-            <Link
-              to="/admin"
-              className="px-3 py-1.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 text-xs font-semibold whitespace-nowrap transition-all duration-300"
-            >
-              관리
-            </Link>
+            <Button asChild size="sm" className="rounded-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs">
+              <Link to="/admin">관리</Link>
+            </Button>
           </div>
 
           {/* Mobile menu toggle */}
