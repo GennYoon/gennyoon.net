@@ -28,7 +28,7 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-950 noise">
+    <div className="min-h-screen flex items-center justify-center bg-zinc-950 noise pb-24">
       <div className="w-full max-w-sm">
         <form onSubmit={handleLogin} className="bg-zinc-900/60 rounded-2xl border border-zinc-800/60 p-8 space-y-4">
           <div className="text-center pb-2">
