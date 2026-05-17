@@ -55,11 +55,6 @@ const CrossPostPanel: React.FC<Props> = ({ postId, postStatus }) => {
     { key: 'linkedin', label: 'LinkedIn', desc: '한국어', fn: 'crosspost-linkedin' },
   ]
 
-  async function handleDisconnect() {
-    await supabase.from('linkedin_tokens').delete().neq('id', '00000000-0000-0000-0000-000000000000')
-    setLinkedinConnected(false)
-  }
-
   async function handleDeleteCrossPost(platform: string) {
     await supabase.from('cross_posts').delete().eq('post_id', postId).eq('platform', platform)
     setCrossPosts((prev) => prev.filter((cp) => cp.platform !== platform))
@@ -117,18 +112,10 @@ const CrossPostPanel: React.FC<Props> = ({ postId, postStatus }) => {
           </a>
         )}
         {linkedinConnected === true && (
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] text-zinc-600 flex items-center gap-1">
-              <Check className="w-3 h-3 text-emerald-500" />
-              연동됨
-            </span>
-            <button
-              onClick={handleDisconnect}
-              className="text-[10px] text-zinc-600 hover:text-red-400 transition-colors"
-            >
-              해제
-            </button>
-          </div>
+          <span className="text-[10px] text-zinc-600 flex items-center gap-1">
+            <Check className="w-3 h-3 text-emerald-500" />
+            연동됨
+          </span>
         )}
       </div>
 
