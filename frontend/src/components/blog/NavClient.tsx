@@ -5,7 +5,6 @@ import { Menu, X } from 'lucide-react'
 interface Category {
   name: string
   slug: string
-  emoji: string
 }
 
 interface Props {

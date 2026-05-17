@@ -30,7 +30,7 @@ const BlogPostPage: React.FC = () => {
     if (!slug) return
     supabase
       .from('posts')
-      .select('*, categories(name, slug, emoji, color)')
+      .select('*, categories(name, slug)')
       .eq('slug', slug)
       .eq('status', 'published')
       .single()
@@ -51,7 +51,7 @@ const BlogPostPage: React.FC = () => {
 
   if (notFound || !post) return <Navigate to="/404" replace />
 
-  const cat = post.categories as { name: string; slug: string; emoji: string; color: string } | null
+  const cat = post.categories as { name: string; slug: string } | null
 
   return (
     <>

@@ -15,14 +15,14 @@ const LandingPage: React.FC = () => {
       supabase
         .from('posts')
         .select(
-          'id, title, slug, seo_description, cover_image, published_at, view_count, categories(name, slug, emoji, color)'
+          'id, title, slug, seo_description, cover_image, published_at, view_count, categories(name, slug)'
         )
         .eq('status', 'published')
         .order('published_at', { ascending: false })
         .limit(9),
       supabase
         .from('categories')
-        .select('name, slug, emoji, color')
+        .select('name, slug')
         .order('name'),
     ]).then(([postsRes, catsRes]) => {
       if (postsRes.data) setPosts(postsRes.data as Post[])

@@ -12,6 +12,4 @@ export interface Post {
 export interface Category {
   name: string
   slug: string
-  emoji: string
-  color: string
 }

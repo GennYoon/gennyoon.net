@@ -7,8 +7,6 @@ import PostCard from '@/components/blog/PostCard'
 interface Category {
   name: string
   slug: string
-  emoji: string
-  color: string
 }
 
 interface Post {
@@ -25,7 +23,7 @@ interface Post {
 const CategoryPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>()
   const [category, setCategory] = useState<Category | null>(null)
-  const [allCategories, setAllCategories] = useState<{ name: string; slug: string; emoji: string }[]>([])
+  const [allCategories, setAllCategories] = useState<{ name: string; slug: string }[]>([])
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
@@ -34,11 +32,11 @@ const CategoryPage: React.FC = () => {
     if (!slug) return
 
     Promise.all([
-      supabase.from('categories').select('name, slug, emoji, color').eq('slug', slug).single(),
-      supabase.from('categories').select('name, slug, emoji').order('name'),
+      supabase.from('categories').select('name, slug').eq('slug', slug).single(),
+      supabase.from('categories').select('name, slug').order('name'),
       supabase
         .from('posts')
-        .select('id, title, slug, seo_description, cover_image, published_at, view_count, categories(name, slug, emoji, color)')
+        .select('id, title, slug, seo_description, cover_image, published_at, view_count, categories(name, slug)')
         .eq('status', 'published')
         .order('published_at', { ascending: false }),
     ]).then(([catRes, allCatsRes, postsRes]) => {
