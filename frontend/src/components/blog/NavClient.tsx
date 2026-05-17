@@ -60,17 +60,19 @@ const NavClient: React.FC<Props> = ({ categories }) => {
           {/* Categories — desktop */}
           <div className="hidden md:flex items-center gap-0.5">
             {categories.slice(0, 4).map((cat) => (
-              <Link
+              <Button
                 key={cat.slug}
-                to={`/category/${cat.slug}`}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-300 ${
+                asChild
+                size="xs"
+                variant="ghost"
+                className={`rounded-full whitespace-nowrap ${
                   pathname === `/category/${cat.slug}`
-                    ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20'
+                    ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/15 hover:text-emerald-400'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60'
                 }`}
               >
-                {cat.name}
-              </Link>
+                <Link to={`/category/${cat.slug}`}>{cat.name}</Link>
+              </Button>
             ))}
           </div>
 
