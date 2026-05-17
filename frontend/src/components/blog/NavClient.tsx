@@ -17,6 +17,13 @@ const NavClient: React.FC<Props> = ({ categories }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const { pathname } = useLocation()
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (pathname === '/') {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -39,7 +46,7 @@ const NavClient: React.FC<Props> = ({ categories }) => {
           }`}
         >
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-zinc-800/60 transition-all duration-300 mr-1">
+          <Link to="/" onClick={handleLogoClick} className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-zinc-800/60 transition-all duration-300 mr-1">
             <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
               <span className="text-emerald-400 text-[10px] font-bold">G</span>
             </div>
@@ -93,6 +100,7 @@ const NavClient: React.FC<Props> = ({ categories }) => {
           ))}
           <Link
             to="/"
+            onClick={handleLogoClick}
             style={{ animationDelay: `${categories.length * 60}ms` }}
             className="reveal mt-4 text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
           >
