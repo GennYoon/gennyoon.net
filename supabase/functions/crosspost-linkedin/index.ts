@@ -21,21 +21,30 @@ serve(async (req) => {
       { db: { schema: 'gennyoon' } }
     )
 
+    // DB에서 토큰 조회
+    const { data: token } = await supabase.from('linkedin_tokens').select('*').eq('id', 1).single()
+    if (!token) return new Response('LinkedIn 연동이 필요합니다.', { status: 401, headers: corsHeaders })
+
+    if (new Date(token.expires_at) < new Date()) {
+      return new Response('LinkedIn 토큰이 만료되었습니다. 재연동 해주세요.', { status: 401, headers: corsHeaders })
+    }
+
+    // 글 조회
     const { data: post, error } = await supabase.from('posts').select('*').eq('id', postId).single()
     if (error || !post) return new Response('Post not found', { status: 404, headers: corsHeaders })
 
     const description = post.seo_description || post.title
-    const commentary = `${description}\n\n👉 https://gennyoon.net/blog/${post.slug}`
+    const commentary = `${description}\n\n${post.title}\nhttps://gennyoon.net/blog/${post.slug}`
 
     const linkedinRes = await fetch('https://api.linkedin.com/v2/ugcPosts', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${Deno.env.get('LINKEDIN_ACCESS_TOKEN')}`,
+        Authorization: `Bearer ${token.access_token}`,
         'Content-Type': 'application/json',
         'X-Restli-Protocol-Version': '2.0.0',
       },
       body: JSON.stringify({
-        author: Deno.env.get('LINKEDIN_PERSON_URN'),
+        author: token.person_urn,
         lifecycleState: 'PUBLISHED',
         specificContent: {
           'com.linkedin.ugc.ShareContent': {
@@ -54,16 +63,17 @@ serve(async (req) => {
     })
 
     if (!linkedinRes.ok) {
-      return new Response('LinkedIn posting failed', { status: 502, headers: corsHeaders })
+      const text = await linkedinRes.text()
+      return new Response(`LinkedIn 포스팅 실패: ${text}`, { status: 502, headers: corsHeaders })
     }
 
     const data = await linkedinRes.json()
     const postUrl = `https://www.linkedin.com/feed/update/${data.id}`
 
-    await supabase.from('cross_posts').insert({
-      post_id: postId, platform: 'linkedin',
-      external_id: data.id, external_url: postUrl,
-    })
+    await supabase.from('cross_posts').upsert(
+      { post_id: postId, platform: 'linkedin', external_id: data.id, external_url: postUrl },
+      { onConflict: 'post_id,platform' }
+    )
 
     return new Response(JSON.stringify({ url: postUrl }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

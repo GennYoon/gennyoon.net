@@ -11,3 +11,4 @@ frontend/.env.*.local
 .idea/
 supabase/.branches/
 supabase/.temp/
+supabase/functions/.env

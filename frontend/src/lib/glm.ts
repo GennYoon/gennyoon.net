@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.z.ai/api/anthropic/v1/messages'
+const BASE_URL = import.meta.env.DEV ? '/api/glm' : 'https://api.z.ai/api/anthropic/v1/messages'
 
 export const GLM_MODELS = {
   default: 'claude-3-5-haiku-20241022',
