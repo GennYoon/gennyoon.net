@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabase/client'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate()
@@ -26,7 +28,6 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-
     <div className="min-h-screen flex items-center justify-center bg-zinc-950 noise">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
@@ -44,37 +45,31 @@ const LoginPage: React.FC = () => {
             </div>
           )}
 
-          <div>
-            <label className="block text-sm font-medium text-zinc-400 mb-1.5">이메일</label>
-            <input
+          <div className="space-y-1.5">
+            <label className="block text-sm font-medium text-zinc-400">이메일</label>
+            <Input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-2.5 border border-zinc-700/60 rounded-lg bg-zinc-800/60 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-colors"
               placeholder="info@webchemist.net"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-zinc-400 mb-1.5">패스워드</label>
-            <input
+          <div className="space-y-1.5">
+            <label className="block text-sm font-medium text-zinc-400">패스워드</label>
+            <Input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-2.5 border border-zinc-700/60 rounded-lg bg-zinc-800/60 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-colors"
               placeholder="••••••••"
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-zinc-950 rounded-lg font-semibold text-sm transition-colors"
-          >
+          <Button type="submit" disabled={loading} className="w-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold">
             {loading ? '로그인 중...' : '로그인'}
-          </button>
+          </Button>
         </form>
       </div>
     </div>
