@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { usePageTracking } from '@/lib/ga'
 import PublicLayout from '@/layouts/PublicLayout'
 import AdminLayout from '@/layouts/AdminLayout'
 import LandingPage from '@/pages/LandingPage'
@@ -13,9 +14,12 @@ import EditPostPage from '@/pages/admin/EditPostPage'
 import CategoriesPage from '@/pages/admin/CategoriesPage'
 import PromptsPage from '@/pages/admin/PromptsPage'
 
+const GA = () => { usePageTracking(); return null; }
+
 export default function App() {
   return (
     <BrowserRouter>
+      <GA />
       <Routes>
         {/* Public */}
         <Route element={<PublicLayout />}>
